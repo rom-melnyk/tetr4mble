@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply h-[100vh] flex justify-center items-center;
+  @apply bg-chalk text-wall dark:bg-wall dark:text-chalk;
+}
+
+#tetr4mble {
+  @apply overflow-hidden flex flex-col;
+
+  /* Small screens */
+  @apply w-full h-[100vh];
+  /* Large screens */
+  @apply sm:w-[90%] sm:max-w-[1024px] sm:h-[90%];
+  @apply sm:rounded sm:border sm:border-wall sm:dark:border-chalk;
+}

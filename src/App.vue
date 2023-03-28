@@ -1,5 +1,5 @@
 <script setup>
-import Field from "@/components/Field.vue";
+import PlayField from "@/components/PlayField.vue";
 </script>
 
 <template>
@@ -9,7 +9,7 @@ import Field from "@/components/Field.vue";
   </header>
 
   <main class="flex-1 p-4 sm:p-8">
-    <Field />
+    <PlayField />
   </main>
 
   <footer class="flex flex-row justify-between py-2 px-4 sm:px-8 border-t border-t-wall dark:border-t-chalk">

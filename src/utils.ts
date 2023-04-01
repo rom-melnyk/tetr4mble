@@ -1,1 +1,1 @@
-﻿export const round2 = (n: number) => n.toFixed(2)
+﻿export const round4 = (n: number) => n.toFixed(4)

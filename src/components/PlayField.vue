@@ -11,7 +11,7 @@ const cursor = new Cursor(field)
 const cellSize = 100 / field.width
 const cells = field.getAllCells()
 
-const round2 = utils.round2
+const round4 = utils.round4
 const kbdListener = (e: KeyboardEvent) => {
   // e.preventDefault()
   switch (e.key) {
@@ -35,12 +35,12 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
               :cell="cell"
               :size="cellSize"
     />
-    <div class="absolute rounded-sm border-4 border-accent transition-all"
+    <div class="absolute rounded-lg border border-accent transition-all"
          :style="{
-           width: `${round2(2 * cellSize)}%`,
-           height: `${round2(2 * cellSize)}%`,
-           top: `${round2(cellSize * cursor.position.y)}%`,
-           left: `${round2(cellSize * cursor.position.x)}%`,
+           width: `${round4(2 * cellSize)}%`,
+           height: `${round4(2 * cellSize)}%`,
+           top: `${round4(cellSize * cursor.position.y)}%`,
+           left: `${round4(cellSize * cursor.position.x)}%`,
          }"
     ></div>
   </div>

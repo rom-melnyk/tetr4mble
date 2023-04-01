@@ -16,7 +16,7 @@ module.exports = {
         dark: colors.slate["200"],
         darker: colors.slate["400"],
       },
-      "wall": {
+      "asphalt": {
         DEFAULT: colors.slate["800"],
         light: colors.slate["700"],
       },

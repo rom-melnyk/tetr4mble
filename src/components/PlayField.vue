@@ -2,13 +2,14 @@
 import { onMounted, onUnmounted, provide } from "vue";
 import level from "../assets/levels/level-01.json"
 import { Field, filedInjectionKey } from "../providers/field"
-import { Cursor, cursorInjectionKey } from "../providers/cursor"
+import { Cursor, cursorInjectionKey, shuffleFiled } from "../providers/cursor";
 import * as utils from "../utils"
 import PlayCell from "./PlayCell.vue"
 import MiniField from "./MiniField.vue"
 
 const field = Field.fromJSON(level)
 const cursor = new Cursor(field)
+setTimeout(() => shuffleFiled(cursor, 4), 1)
 
 provide(filedInjectionKey, field)
 provide(cursorInjectionKey, cursor)

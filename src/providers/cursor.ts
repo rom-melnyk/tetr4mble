@@ -1,5 +1,6 @@
 ﻿import { reactive, InjectionKey } from "vue";
 import { Field } from "./field";
+import { pickRandom, rnd } from "../utils";
 
 export const cursorInjectionKey: InjectionKey<Cursor> = Symbol("cursor")
 
@@ -7,14 +8,10 @@ export class Cursor {
   public readonly position = reactive({ x: 0, y: 0 })
 
   constructor(
-    private readonly filed: Field
+    public readonly field: Field
   ) {
-    let x = 0
-    while (!this.isValidPosition(x, 0) && x < filed.width - 2) x++
-    if (!this.isValidPosition(x, 0))
-      throw new Error("Invalid field: cannot position the cursor")
-
-    this.position.x = x
+    const firstCell = field.getAllCells()[0]
+    this.approach(firstCell.x, firstCell.y)
   }
 
   public move(dx: -1 | 0 | 1, dy: -1 | 0 | 1) {
@@ -60,28 +57,28 @@ export class Cursor {
    * DC        CB
    */
   public rotate() {
-    const a = this.filed.getCellAt(this.position.x, this.position.y)
-    const b = this.filed.getCellAt(this.position.x + 1, this.position.y)
-    const c = this.filed.getCellAt(this.position.x + 1, this.position.y + 1)
-    const d = this.filed.getCellAt(this.position.x, this.position.y + 1)
+    const a = this.field.getCellAt(this.position.x, this.position.y)
+    const b = this.field.getCellAt(this.position.x + 1, this.position.y)
+    const c = this.field.getCellAt(this.position.x + 1, this.position.y + 1)
+    const d = this.field.getCellAt(this.position.x, this.position.y + 1)
 
     a.x++
-    this.filed.settleCell(a)
+    this.field.settleCell(a)
     b.y++
-    this.filed.settleCell(b)
+    this.field.settleCell(b)
     c.x--
-    this.filed.settleCell(c)
+    this.field.settleCell(c)
     d.y--
-    this.filed.settleCell(d)
+    this.field.settleCell(d)
   }
 
   private isValidPosition(x: number, y: number) {
     // AB
     // DC
-    const a = this.filed.getCellAt(x, y)
-    const b = this.filed.getCellAt(x + 1, y)
-    const c = this.filed.getCellAt(x + 1, y + 1)
-    const d = this.filed.getCellAt(x, y + 1)
+    const a = this.field.getCellAt(x, y)
+    const b = this.field.getCellAt(x + 1, y)
+    const c = this.field.getCellAt(x + 1, y + 1)
+    const d = this.field.getCellAt(x, y + 1)
     if (!a || !b || !c || !d) return false
     if (a.isDummy || b.isDummy || c.isDummy || d.isDummy) return false
 
@@ -97,5 +94,16 @@ export class Cursor {
       : this.position.y - y
 
     return dx + dy
+  }
+}
+
+export function shuffleFiled(cursor: Cursor, severity: 1 | 2 | 3 | 4) {
+  const cells = cursor.field.getAllCells()
+  let numOfRotations = cells.length * severity
+  while (--numOfRotations > 0) {
+    const cell = pickRandom(cells)
+    cursor.approach(cell.x, cell.y)
+    let rot = rnd(3) + 1
+    while (rot-- > 0) cursor.rotate()
   }
 }

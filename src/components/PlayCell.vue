@@ -26,7 +26,7 @@ const onClick = (e: MouseEvent) => {
 </script>
 
 <template>
-  <div class="absolute rounded-lg overflow-hidden transition-all text-center"
+  <div class="absolute transition-all"
        :class="{ [`cell-${cell.type}`]: !cell.isDummy }"
        @click="onClick"
   >
@@ -34,7 +34,7 @@ const onClick = (e: MouseEvent) => {
       :cell-type="cell.type"
       :class="[
         `cell-${cell.type}`,
-        isMiniFiled ? 'w-[90%] m-[5%]' : 'w-[80%] m-[10%]',
+        isMiniFiled ? '' : 'w-[80%] m-[10%]',
       ]"
     />
   </div>

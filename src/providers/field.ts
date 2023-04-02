@@ -1,5 +1,8 @@
-﻿import { reactive } from "vue"
+﻿import { reactive, InjectionKey } from "vue";
 import { Cell } from "./cell"
+
+
+export const filedInjectionKey: InjectionKey<Field> = Symbol("cursor")
 
 export class Field {
   public static fromJSON(json: string[]) {
@@ -58,25 +61,10 @@ export class Field {
     return this.cells.get(`${x}:${y}`)
   }
 
+  /**
+   * Update the cell-in-the-field position as per cell's (new) {x,y}.
+   */
   public settleCell(cell: Cell) {
     return this.cells.set(`${cell.x}:${cell.y}`, cell)
-  }
-
-  public rotateCW(cursor: { x: number, y: number }) {
-    // AB   ->   DA
-    // DC        CB
-    const a = this.getCellAt(cursor.x, cursor.y)
-    const b = this.getCellAt(cursor.x + 1, cursor.y)
-    const c = this.getCellAt(cursor.x + 1, cursor.y + 1)
-    const d = this.getCellAt(cursor.x, cursor.y + 1)
-
-    a.x++
-    this.settleCell(a)
-    b.y++
-    this.settleCell(b)
-    c.x--
-    this.settleCell(c)
-    d.y--
-    this.settleCell(d)
   }
 }

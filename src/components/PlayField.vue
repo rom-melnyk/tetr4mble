@@ -1,18 +1,23 @@
 ﻿<script setup lang="ts">
-import { onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted, provide } from "vue";
 import level from "../assets/levels/level-01.json"
-import { Field } from "../providers/field"
-import { Cursor } from "../providers/cursor"
+import { Field, filedInjectionKey } from "../providers/field";
+import { Cursor, cursorInjectionKey } from "../providers/cursor";
 import * as utils from "../utils"
 import PlayCell from "./PlayCell.vue"
 
 const field = Field.fromJSON(level)
 const cursor = new Cursor(field)
+
+provide(filedInjectionKey, field)
+provide(cursorInjectionKey, cursor)
+
 const cellWidth = 100 / field.width
 const cellHeight = 100 / field.height
 const cells = field.getAllCells()
 
 const round4 = utils.round4
+
 const kbdListener = (e: KeyboardEvent) => {
   // e.preventDefault()
   switch (e.key) {
@@ -20,9 +25,9 @@ const kbdListener = (e: KeyboardEvent) => {
     case "ArrowRight": return cursor.move(1, 0)
     case "ArrowDown": return cursor.move(0, 1)
     case "ArrowLeft": return cursor.move(-1, 0)
-    case " ": return field.rotateCW(cursor.position)
+    case " ": return cursor.rotate()
     default:
-      console.info(`Pressed unrecognized key: <${e.key}>`)
+      // console.info(`Pressed unrecognized key: <${e.key}>`)
   }
 }
 
@@ -50,6 +55,7 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
            top: `${round4(cellHeight * cursor.position.y)}%`,
            left: `${round4(cellWidth * cursor.position.x)}%`,
          }"
+         @click="cursor.rotate"
     ></div>
   </div>
 </template>

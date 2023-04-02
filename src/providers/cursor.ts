@@ -76,15 +76,13 @@ export class Cursor {
   }
 
   private isValidPosition(x: number, y: number) {
-    if (x < 0 || x > this.filed.width - 2) return false
-    if (y < 0 || y > this.filed.height - 2) return false
-
     // AB
     // DC
     const a = this.filed.getCellAt(x, y)
     const b = this.filed.getCellAt(x + 1, y)
     const c = this.filed.getCellAt(x + 1, y + 1)
     const d = this.filed.getCellAt(x, y + 1)
+    if (!a || !b || !c || !d) return false
     if (a.isDummy || b.isDummy || c.isDummy || d.isDummy) return false
 
     return true

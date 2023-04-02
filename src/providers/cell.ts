@@ -8,4 +8,8 @@
   ) {
     this.isDummy = type === 0
   }
+
+  public clone() {
+    return new Cell(this.x, this.y, this.type)
+  }
 }

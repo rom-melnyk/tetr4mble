@@ -41,20 +41,29 @@ export class Field {
   public readonly width: number
   public readonly height: number
 
-  private readonly originalCells: Cell[][]
+  private readonly originalCells = new Map<string, Cell>()
   private readonly cells = new Map<string, Cell>()
 
   private constructor(
     cells: Cell[][],
   ) {
-    this.originalCells = cells
     this.width = cells[0].length
     this.height = cells.length
-    cells.flat().forEach(c => this.settleCell(reactive(c) as Cell))
+    cells
+      .flat()
+      .filter(cell => !cell.isDummy)
+      .forEach(cell => {
+        this.originalCells.set(`${cell.x}:${cell.y}`, cell.clone())
+        this.settleCell(reactive(cell) as Cell)
+      })
   }
 
   public getAllCells() {
     return Array.from(this.cells.values())
+  }
+
+  public getOriginalCells() {
+    return Array.from(this.originalCells.values())
   }
 
   public getCellAt(x: number, y: number) {

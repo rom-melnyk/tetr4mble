@@ -1,7 +1,5 @@
-﻿<script lang="ts" setup>
-import { defineProps } from "vue"
-
-defineProps({
+﻿<script setup lang="ts">
+const props = defineProps({
   cellType: Number,
 })
 </script>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import PlayField from "@/components/PlayField.vue"
 </script>
 

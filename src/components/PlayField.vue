@@ -1,10 +1,11 @@
 ﻿<script setup lang="ts">
 import { onMounted, onUnmounted, provide } from "vue";
 import level from "../assets/levels/level-01.json"
-import { Field, filedInjectionKey } from "../providers/field";
-import { Cursor, cursorInjectionKey } from "../providers/cursor";
+import { Field, filedInjectionKey } from "../providers/field"
+import { Cursor, cursorInjectionKey } from "../providers/cursor"
 import * as utils from "../utils"
 import PlayCell from "./PlayCell.vue"
+import MiniField from "./MiniField.vue"
 
 const field = Field.fromJSON(level)
 const cursor = new Cursor(field)
@@ -41,6 +42,7 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
   >
     <PlayCell v-for="cell in cells"
               :cell="cell"
+              :is-mini-filed="false"
               :style="{
                 width: `${round4(cellWidth)}%`,
                 height: `${round4(cellHeight)}%`,
@@ -56,6 +58,7 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
            left: `${round4(cellWidth * cursor.position.x)}%`,
          }"
          @click="cursor.rotate"
-    ></div>
+    />
+    <MiniField :field="field" class="absolute w-2/12 top-0 right-0 opacity-30"/>
   </div>
 </template>

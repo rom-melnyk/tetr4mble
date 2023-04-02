@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { defineProps, inject } from "vue"
+import { inject } from "vue"
 import { Cell } from "../providers/cell"
 import { cursorInjectionKey } from "../providers/cursor"
 import PlayCellIcon from "./PlayCellIcon.vue"
@@ -9,12 +9,16 @@ const props = defineProps({
     type: Object as () => Cell,
     required: true
   },
+  isMiniFiled: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const cursor = inject(cursorInjectionKey)
 
 const onClick = (e: MouseEvent) => {
-  if (props.cell.isDummy) return
+  if (props.isMiniFiled || props.cell.isDummy) return
 
   e.preventDefault()
   cursor.approach(props.cell.x, props.cell.y)
@@ -26,7 +30,13 @@ const onClick = (e: MouseEvent) => {
        :class="{ [`cell-${cell.type}`]: !cell.isDummy }"
        @click="onClick"
   >
-    <PlayCellIcon :cell-type="cell.type" :class="`cell-${cell.type}`" class="w-[60%] m-[20%]"/>
+    <PlayCellIcon
+      :cell-type="cell.type"
+      :class="[
+        `cell-${cell.type}`,
+        isMiniFiled ? 'w-[90%] m-[5%]' : 'w-[80%] m-[10%]',
+      ]"
+    />
   </div>
 </template>
 

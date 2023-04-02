@@ -38,11 +38,13 @@ export class Field {
   public readonly width: number
   public readonly height: number
 
+  private readonly originalCells: Cell[][]
   private readonly cells = new Map<string, Cell>()
 
-  constructor(
+  private constructor(
     cells: Cell[][],
   ) {
+    this.originalCells = cells
     this.width = cells[0].length
     this.height = cells.length
     cells.flat().forEach(c => this.settleCell(reactive(c) as Cell))

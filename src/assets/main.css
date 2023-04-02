@@ -12,7 +12,17 @@ body {
 
   /* Small screens */
   @apply w-full h-[100vh];
-  /* Large screens */
-  @apply sm:w-[90%] sm:max-w-[1024px] sm:h-[90%];
-  @apply sm:rounded sm:border sm:border-asphalt sm:dark:border-chalk;
+
+  /* Large(r) screens */
+  @media screen and (min-width: 1024px) {
+    @apply w-[1024px];
+    @apply border-l border-r border-asphalt dark:border-chalk;
+  }
+  @media screen and (min-height: 1024px) {
+    @apply h-[1024px];
+    @apply border-t border-b border-asphalt dark:border-chalk;
+  }
+  @media screen and (min-width: 1024px) and (min-height: 1024px) {
+    @apply rounded;
+  }
 }

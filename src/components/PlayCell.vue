@@ -9,24 +9,14 @@ defineProps({
     type: Object as () => Cell,
     required: true
   },
-  size: {
-    type: Number,
-    required: true,
-  }
 })
 
 const round4 = utils.round4
 </script>
 
 <template>
-  <div class="absolute aspect-square rounded-lg overflow-hidden transition-all text-center"
+  <div class="absolute rounded-lg overflow-hidden transition-all text-center"
        :class="{ [`cell-${cell.type}`]: !cell.isDummy }"
-       :style="{
-         width: `${round4(size)}%`,
-         height: `${round4(size)}%`,
-         top: `${round4(size * cell.y)}%`,
-         left: `${round4(size * cell.x)}%`,
-       }"
   >
     <PlayCellIcon :cell-type="cell.type" :class="`cell-${cell.type}`" class="w-[60%] m-[20%]"/>
   </div>

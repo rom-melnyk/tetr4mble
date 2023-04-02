@@ -8,7 +8,8 @@ import PlayCell from "./PlayCell.vue"
 
 const field = Field.fromJSON(level)
 const cursor = new Cursor(field)
-const cellSize = 100 / field.width
+const cellWidth = 100 / field.width
+const cellHeight = 100 / field.height
 const cells = field.getAllCells()
 
 const round4 = utils.round4
@@ -30,17 +31,24 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
 </script>
 
 <template>
-  <div class="relative aspect-square w-1/2">
+  <div class="relative max-w-full max-h-full mx-auto"
+       :style="{ 'aspect-ratio': `${field.width}/${field.height}` }"
+  >
     <PlayCell v-for="cell in cells"
               :cell="cell"
-              :size="cellSize"
+              :style="{
+                width: `${round4(cellWidth)}%`,
+                height: `${round4(cellHeight)}%`,
+                top: `${round4(cellHeight * cell.y)}%`,
+                left: `${round4(cellWidth * cell.x)}%`,
+              }"
     />
-    <div class="absolute rounded-lg border border-accent transition-all"
+    <div class="absolute rounded-lg border lg:border-2 border-accent transition-all"
          :style="{
-           width: `${round4(2 * cellSize)}%`,
-           height: `${round4(2 * cellSize)}%`,
-           top: `${round4(cellSize * cursor.position.y)}%`,
-           left: `${round4(cellSize * cursor.position.x)}%`,
+           width: `${round4(2 * cellWidth)}%`,
+           height: `${round4(2 * cellHeight)}%`,
+           top: `${round4(cellHeight * cursor.position.y)}%`,
+           left: `${round4(cellWidth * cursor.position.x)}%`,
          }"
     ></div>
   </div>

@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import PlayField from "@/components/PlayField.vue"
 </script>
 
 <template>
   <header class="flex flex-row justify-between p-4 lg:p-8 border-b border-b-asphalt dark:border-b-chalk">
     <span class="text-xl">Tetr④mble</span>
-    <span class="text-xl">≡</span>
+    <span class="text-xl">&vellip;</span>
   </header>
 
   <main class="flex-1 p-4 lg:p-8 overflow-hidden">
     <div class="h-full overflow-hidden">
-      <PlayField />
+      <router-view />
     </div>
   </main>
 

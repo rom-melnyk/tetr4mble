@@ -2,10 +2,13 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import './assets/main.css'
+import { router } from "./router";
 
 export const T4 = {
   init() {
-    createApp(App).mount('#tetr4mble')
+    createApp(App)
+      .use(router)
+      .mount('#tetr4mble')
   }
 }
 

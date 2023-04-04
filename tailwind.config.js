@@ -12,18 +12,18 @@ module.exports = {
       current: "currentColor",
       "white": "#ffffff",
       "chalk": {
-        DEFAULT: colors.slate["50"],
-        dark: colors.slate["200"],
-        darker: colors.slate["400"],
+        DEFAULT: "hsl(190, 10%, 100%)",
+        dark: "hsl(190, 10%, 90%)",
+        darker: "hsl(190, 15%, 85%)",
       },
       "asphalt": {
-        DEFAULT: colors.slate["800"],
-        light: colors.slate["700"],
+        DEFAULT: "hsl(190, 10%, 20%)",
+        light: "hsl(190, 15%, 25%)",
       },
       "accent": {
-        light: colors.sky["200"],
-        DEFAULT: colors.sky["300"],
-        dark: colors.sky["400"],
+        light: "hsl(190, 80%, 70%)",
+        DEFAULT: "hsl(190, 80%, 50%)",
+        dark: "hsl(190, 60%, 40%)",
       },
       "cell-1": {
         DEFAULT: colors.emerald["700"],

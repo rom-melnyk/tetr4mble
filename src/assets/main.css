@@ -8,7 +8,7 @@ body {
 }
 
 #tetr4mble {
-  @apply overflow-hidden flex flex-col;
+  @apply overflow-hidden flex flex-col relative select-none;
 
   /* Small screens */
   @apply w-full h-[100vh];

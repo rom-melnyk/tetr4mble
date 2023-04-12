@@ -15,7 +15,7 @@ defineProps({
 </script>
 
 <template>
-  <span class="button" :class="[disabled ? 'disabled' :'']">
+  <span class="button" :class="{ disabled }">
     <i>{{ icon }}</i>
     <span v-if="title">{{ title }}</span>
   </span>

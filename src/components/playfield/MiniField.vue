@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
-import * as utils from "../utils"
+import * as utils from "../../utils"
 import PlayCell from "./PlayCell.vue"
-import { Field } from "../providers/field";
+import { Field } from "../../providers/field";
 
 const props = defineProps({
   field: {

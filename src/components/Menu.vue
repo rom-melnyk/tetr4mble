@@ -1,9 +1,9 @@
 ﻿<script lang="ts" setup>
 import { ref } from "vue"
 import { useRouter } from "vue-router"
-import AppButton from "@/components/shared/AppButton.vue"
+import AppButton from "./shared/AppButton.vue"
 
-const emit = defineEmits(['hide' /** @param {boolean} isHidden */])
+const emit = defineEmits(["hide" /** @param {boolean} isHidden */])
 const router = useRouter()
 const isHidden = ref(true)
 
@@ -20,6 +20,8 @@ const navigate = (path: string) => {
 </script>
 
 <template>
+  <div v-if="!isHidden" class="shade absolute inset-0" @click="toggleHidden"></div>
+
   <AppButton v-if="isHidden"
              icon="⁝"
              class="absolute top-4 right-4 lg:top-8 lg:right-8"

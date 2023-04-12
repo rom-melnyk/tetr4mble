@@ -2,7 +2,7 @@
 import { Cell } from "./cell"
 
 
-export const filedInjectionKey: InjectionKey<Field> = Symbol("cursor")
+export const fieldInjectionKey: InjectionKey<Field> = Symbol("cursor")
 
 export class Field {
   public static fromJSON(json: string[]) {
@@ -60,6 +60,26 @@ export class Field {
 
   public getAllCells() {
     return Array.from(this.cells.values())
+  }
+
+  public getBorderCells() {
+    const borderCells = [] as Array<{ x: number; y: number; borders: Set<"t" | "r" | "b" | "l"> }>
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        if (!this.originalCells.has(`${x}:${y}`)) continue
+
+        const cell = { x, y, borders: new Set<"t" | "r" | "b" | "l">() }
+
+        if (!this.originalCells.has(`${x}:${y - 1}`)) cell.borders.add("t")
+        if (!this.originalCells.has(`${x + 1}:${y}`)) cell.borders.add("r")
+        if (!this.originalCells.has(`${x}:${y + 1}`)) cell.borders.add("b")
+        if (!this.originalCells.has(`${x - 1}:${y}`)) cell.borders.add("l")
+
+        if (cell.borders.size > 0) borderCells.push(cell)
+      }
+    }
+
+    return borderCells
   }
 
   public getOriginalCells() {

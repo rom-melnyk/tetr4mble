@@ -1,35 +1,36 @@
 ﻿<script setup lang="ts">
-import * as utils from "../../utils"
-import PlayCell from "./PlayCell.vue"
+import PlayCell from "./playcell/PlayCell.vue"
+import PlayCellIcon from "./playcell/PlayCellIcon.vue"
+import PlayFiledBorders from "./PlayFiledBorders.vue";
 import { Field } from "../../providers/field";
 
-const props = defineProps({
-  field: {
-    type: Object as () => Field,
-    required: true,
-  }
-})
+const props = defineProps<{ field: Field }>()
 
 const cellWidth = 100 / props.field.width
 const cellHeight = 100 / props.field.height
+const borderCells = props.field.getBorderCells()
 const cells = props.field.getOriginalCells()
-
-const round4 = utils.round4
 </script>
 
 <template>
-  <div class="absolute"
-       :style="{ 'aspect-ratio': `${field.width}/${field.height}` }"
-  >
-    <PlayCell v-for="cell in cells"
-              :cell="cell"
-              :is-mini-filed="true"
-              :style="{
-                width: `${round4(cellWidth)}%`,
-                height: `${round4(cellHeight)}%`,
-                top: `${round4(cellHeight * cell.y)}%`,
-                left: `${round4(cellWidth * cell.x)}%`,
-              }"
-    />
-  </div>
+  <Teleport to="#tetr4mble > header">
+    <div class="relative h-[6rem] mx-auto"
+         :style="{ 'aspect-ratio': `${field.width}/${field.height}` }"
+    >
+      <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" :is-mini-filed="true" />
+
+      <PlayCell v-for="cell in cells"
+                :class="`cell-${cell.type}`"
+                :x="cellWidth * cell.x"
+                :y="cellHeight * cell.y"
+                :width="cellWidth"
+                :height="cellHeight"
+      >
+        <PlayCellIcon
+          :cell-type="cell.type"
+          :class="`cell-${cell.type} w-[80%] m-[10%]`"
+        />
+      </PlayCell>
+    </div>
+  </Teleport>
 </template>

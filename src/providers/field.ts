@@ -1,5 +1,5 @@
 ﻿import { reactive, InjectionKey } from "vue";
-import { Cell } from "./cell"
+import { Cell, BorderCell } from "./cell"
 
 
 export const fieldInjectionKey: InjectionKey<Field> = Symbol("cursor")
@@ -63,12 +63,10 @@ export class Field {
   }
 
   public getBorderCells() {
-    const borderCells = [] as Array<{ x: number; y: number; borders: Set<"t" | "r" | "b" | "l"> }>
-    for (let x = 0; x < this.width; x++) {
-      for (let y = 0; y < this.height; y++) {
-        if (!this.originalCells.has(`${x}:${y}`)) continue
-
-        const cell = { x, y, borders: new Set<"t" | "r" | "b" | "l">() }
+    return Array
+      .from(this.originalCells.values())
+      .reduce((borderCells, { x, y, type }) => {
+        const cell = new BorderCell(x, y, type)
 
         if (!this.originalCells.has(`${x}:${y - 1}`)) cell.borders.add("t")
         if (!this.originalCells.has(`${x + 1}:${y}`)) cell.borders.add("r")
@@ -76,10 +74,9 @@ export class Field {
         if (!this.originalCells.has(`${x - 1}:${y}`)) cell.borders.add("l")
 
         if (cell.borders.size > 0) borderCells.push(cell)
-      }
-    }
 
-    return borderCells
+        return borderCells
+      }, [] as BorderCell[])
   }
 
   public getOriginalCells() {

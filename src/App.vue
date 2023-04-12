@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import Menu from "./components/Menu.vue"
-import Logo from "./components/header-footer/Logo.vue"
 
 const isBlurred = ref(false)
 const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
@@ -10,8 +9,8 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
 <template>
   <Menu @hide="toggleBlurred" />
 
-  <header class="box-content h-[2em] p-4 lg:p-8 transition-all" :class="{ 'with-blur': isBlurred }">
-    <Logo class="block mx-auto h-8 text-asphalt-light dark:text-chalk-dark"/>
+  <header class="box-content p-4 lg:p-8 transition-all" :class="{ 'with-blur': isBlurred }">
+    <!-- Teleport target -->
   </header>
 
   <main class="flex-1 p-4 lg:p-8 overflow-hidden border-y border-y-asphalt dark:border-y-chalk transition-all"

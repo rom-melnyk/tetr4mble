@@ -1,7 +1,5 @@
 ﻿<script setup lang="ts">
-defineProps({
-  cellType: Number,
-})
+defineProps<{ cellType: Number }>()
 </script>
 
 <template>

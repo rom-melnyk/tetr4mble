@@ -6,16 +6,7 @@ import PlayCellIcon from "./playcell/PlayCellIcon.vue"
 import PlayFiledBorders from "./PlayFiledBorders.vue";
 import PlayFiledCursor from "./PlayFiledCursor.vue";
 
-const props = defineProps({
-  field: {
-    type: Object as () => Field,
-    required: true
-  },
-  cursor: {
-    type: Object as () => Cursor,
-    required: false
-  },
-})
+const props = defineProps<{ field: Field; cursor: Cursor }>()
 const emit = defineEmits([
   "cellClick", /** @param {Cell} cell */
   "cursorClick",
@@ -25,7 +16,6 @@ const cellWidth = 100 / props.field.width
 const cellHeight = 100 / props.field.height
 const borderCells = props.field.getBorderCells()
 const cells = props.field.getAllCells()
-
 </script>
 
 <template>
@@ -35,7 +25,7 @@ const cells = props.field.getAllCells()
     <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" />
 
     <PlayCell v-for="cell in cells"
-              :class="{ [`cell-${cell.type}`]: !cell.isDummy }"
+              :class="`cell-${cell.type}`"
               :x="cellWidth * cell.x"
               :y="cellHeight * cell.y"
               :width="cellWidth"
@@ -44,26 +34,24 @@ const cells = props.field.getAllCells()
     >
       <PlayCellIcon
         :cell-type="cell.type"
-        :class="{
-          [`cell-${cell.type}`]: true,
-           'w-[80%] m-[10%]': cursor,
-        }"
+        :class="`cell-${cell.type} w-[80%] m-[10%]`"
       />
     </PlayCell>
 
     <PlayFiledCursor
-      v-if="cursor"
       :cursor="cursor"
       :cell-width="cellWidth"
       :cell-height="cellHeight"
       @click="emit('cursorClick')"
     />
-
   </div>
 </template>
 
-<style scoped>
-/* Must be represented here otherwise the TW compiler ignores them */
+<style>
+/*
+ * Must be represented here otherwise the TW compiler ignores them.
+ * Must NOT be `scoped` because it's used by the <MiniFiled> as well.
+ */
 .cell-1 {
   @apply text-cell-1 dark:text-cell-1-bg;
 }

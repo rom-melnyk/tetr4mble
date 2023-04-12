@@ -1,6 +1,7 @@
 ﻿<script lang="ts" setup>
 import { onMounted, onUnmounted } from "vue";
 import PlayField from "../components/playfield/PlayField.vue";
+import MiniField from "../components/playfield/MiniField.vue";
 import level from "../assets/levels/level-01.json"
 import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
@@ -38,4 +39,5 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
 
 <template>
   <PlayField :field="field" :cursor="cursor" @cell-click="onCellClick" @cursor-click="onCursorClick" />
+  <MiniField :field="field" />
 </template>

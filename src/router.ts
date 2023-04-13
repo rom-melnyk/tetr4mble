@@ -9,7 +9,7 @@ export const router = createRouter({
     { path: "/about", component: About },
     { path: "/how-to", component: HowTo },
     { path: "/select-level", component: SelectLevel },
-    { path: "/level", component: Level },
+    { path: "/level/:id(\\d+)/:severity(\\d+)?", component: Level },
     { path: "/:pathMatch(.*)*", redirect: "/about" },
     { path: "", redirect: "/about" },
   ],

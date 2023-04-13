@@ -1,10 +1,9 @@
 ﻿<script lang="ts" setup>
 import BasicHeader from "../components/header-footer/BasicHeader.vue"
-import levelsJSON from "../assets/levels/levels.json"
-import { loadLevels } from "../providers/level";
+import { useLevels } from "../providers/level";
 import MiniField from "../components/playfield/MiniField.vue";
 
-const levels = loadLevels(levelsJSON)
+const levels = useLevels()
 </script>
 
 <template>
@@ -16,12 +15,12 @@ const levels = loadLevels(levelsJSON)
 
     <div class="flex-1 overflow-y-auto">
       <table class="border-separate border-spacing-y-4 lg:border-spacing-y-8">
-        <tr v-for="level in levels">
+        <tr v-for="(level, lid) in levels">
           <td>
             <MiniField :field="level.field" />
           </td>
           <td>
-            <a href=""
+            <a :href="`/level/${lid}/4`"
                class="ml-4 lg:ml-4 text-accent"
             >{{ level.description }}</a>
           </td>

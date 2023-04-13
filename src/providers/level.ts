@@ -37,5 +37,16 @@ export class Level {
 }
 
 export function loadLevels(json: LevelJSON[]): Level[] {
-  return json.map(l => new Level(l))
+  try {
+    levels = json.map(l => new Level(l))
+  } catch (e) {
+    console.error("Failed loading `levels.json`", e)
+  }
+  return levels
+}
+
+let levels: Level[] = []
+
+export function useLevels(): Level[] {
+  return levels
 }

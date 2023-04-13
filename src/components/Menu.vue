@@ -38,7 +38,6 @@ const navigate = (path: string) => {
   >
     <AppButton icon=">" class="block mb-8 lg:mb-16" @click="toggleHidden" />
     <AppButton icon="≡" class="block mb-4 lg:mb-8" @click="navigate('/select-level')" />
-    <AppButton icon="L" class="block mb-4 lg:mb-8" @click="navigate('/level')" />
     <AppButton icon="?" class="block mb-4 lg:mb-8" @click="navigate('/how-to')" />
     <AppButton icon="4" class="block mb-4 lg:mb-8" @click="navigate('/about')" />
   </aside>

@@ -1,9 +1,9 @@
 ﻿<script lang="ts" setup>
+import { computed } from "vue"
 import BasicHeader from "../components/header-footer/BasicHeader.vue"
-import { useLevels } from "../providers/level";
-import { useDifficulty, DifficultyLevel } from "../providers/difficulty";
-import MiniField from "../components/playfield/MiniField.vue";
-import { computed } from "vue";
+import MiniField from "../components/playfield/MiniField.vue"
+import { useLevels } from "../providers/level"
+import { useDifficulty, DifficultyLevel } from "../providers/difficulty"
 
 const levels = useLevels()
 const difficulty = useDifficulty()
@@ -14,9 +14,7 @@ const _diffLevelWording: { [level in DifficultyLevel]: string } = {
   3: "I know kung-fu",
   4: "Give 'em hell",
 }
-
 const difficultyWording = computed(() => _diffLevelWording[difficulty.level.value])
-
 </script>
 
 <template>

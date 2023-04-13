@@ -1,5 +1,6 @@
 ﻿import { Field } from "./field"
 import { Cursor } from "./cursor"
+import { LevelStats } from "./stats"
 
 export interface LevelJSON {
   description: string;
@@ -7,38 +8,22 @@ export interface LevelJSON {
   level: string[];
 }
 
-export class LevelStats {
-  public bestTime = 0
-  public bestMoves = 0
-  public currentTime = 0
-  public currentMoves = 0
-  public progress = 0
-
-  public load() {
-    // TODO Implement me
-  }
-
-  public store() {
-    // TODO Implement me
-  }
-}
-
 export class Level {
   public readonly description: string
   public readonly field: Field
   public readonly cursor: Cursor
   public readonly stats: LevelStats
-  constructor(json: LevelJSON) {
+  constructor(id: number, json: LevelJSON) {
     this.description = json.description
     this.field = Field.fromJSON(json.level)
     this.cursor = new Cursor(this.field)
-    this.stats = new LevelStats()
+    this.stats = new LevelStats(id)
   }
 }
 
 export function loadLevels(json: LevelJSON[]): Level[] {
   try {
-    levels = json.map(l => new Level(l))
+    levels = json.map((level, id) => new Level(id, level))
   } catch (e) {
     console.error("Failed loading `levels.json`", e)
   }

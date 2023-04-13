@@ -1,9 +1,22 @@
 ﻿<script lang="ts" setup>
 import BasicHeader from "../components/header-footer/BasicHeader.vue"
 import { useLevels } from "../providers/level";
+import { useDifficulty, DifficultyLevel } from "../providers/difficulty";
 import MiniField from "../components/playfield/MiniField.vue";
+import { computed } from "vue";
 
 const levels = useLevels()
+const difficulty = useDifficulty()
+
+const _diffLevelWording: { [level in DifficultyLevel]: string } = {
+  1: "Rookie",
+  2: "Bring it on",
+  3: "I know kung-fu",
+  4: "Give 'em hell",
+}
+
+const difficultyWording = computed(() => _diffLevelWording[difficulty.level.value])
+
 </script>
 
 <template>
@@ -11,7 +24,19 @@ const levels = useLevels()
 
   <div class="h-full flex flex-col">
     <h1 class="mb-4 lg:mb-8 text-2xl">Select level</h1>
-    <div class="mb-4 lg:mb-8 pb-4 lg:pb-8 border-b border-b-chalk-dark dark:border-b-asphalt-light">Severity</div>
+    <div class="mb-4 lg:mb-8 pb-4 lg:pb-8 border-b border-b-chalk-dark dark:border-b-asphalt-light flex flex-row">
+      <span class="mr-4 lg:mr-8">Difficulty</span>
+      <span>
+        <input type="range"
+               min="1" max="4" step="1"
+               class="w-[12em] mr-2 align-middle"
+               v-model.number="difficulty.level.value"
+        />
+        <span class="text-sm align-middle text-chalk-dark dark:text-asphalt-light">
+          {{ difficultyWording }}
+        </span>
+      </span>
+    </div>
 
     <div class="flex-1 overflow-y-auto">
       <table class="border-separate border-spacing-y-4 lg:border-spacing-y-8">
@@ -20,7 +45,7 @@ const levels = useLevels()
             <MiniField :field="level.field" />
           </td>
           <td>
-            <a :href="`/level/${lid}/4`"
+            <a :href="`/level/${lid}/${difficulty.level.value}`"
                class="ml-4 lg:ml-4 text-accent"
             >{{ level.description }}</a>
           </td>

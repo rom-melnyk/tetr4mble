@@ -1,8 +1,5 @@
-﻿import { reactive, InjectionKey } from "vue";
+﻿import { reactive } from "vue"
 import { Cell, BorderCell } from "./cell"
-
-
-export const fieldInjectionKey: InjectionKey<Field> = Symbol("cursor")
 
 export class Field {
   public static fromJSON(json: string[]) {

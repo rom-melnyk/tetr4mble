@@ -47,6 +47,4 @@ export function loadLevels(json: LevelJSON[]): Level[] {
 
 let levels: Level[] = []
 
-export function useLevels(): Level[] {
-  return levels
-}
+export const useLevels = () => levels

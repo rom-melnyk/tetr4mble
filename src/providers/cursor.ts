@@ -1,8 +1,7 @@
-﻿import { reactive, InjectionKey } from "vue";
-import { Field } from "./field";
-import { pickRandom, rnd } from "../utils";
-
-export const cursorInjectionKey: InjectionKey<Cursor> = Symbol("cursor")
+﻿import { reactive } from "vue"
+import { Field } from "./field"
+import { DifficultyLevel } from "./difficulty"
+import { pickRandom, rnd } from "../utils"
 
 export class Cursor {
   public readonly position = reactive({ x: 0, y: 0 })
@@ -97,7 +96,7 @@ export class Cursor {
   }
 }
 
-export function shuffleFiled(cursor: Cursor, severity: 1 | 2 | 3 | 4) {
+export function shuffleFiled(cursor: Cursor, severity: DifficultyLevel) {
   const cells = cursor.field.getAllCells()
   let numOfRotations = cells.length * severity
   while (--numOfRotations > 0) {

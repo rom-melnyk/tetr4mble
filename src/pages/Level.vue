@@ -7,20 +7,21 @@ import { useLevels, Level } from "../providers/level";
 import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
 import { Cursor, shuffleFiled } from "../providers/cursor";
+import { DifficultyLevel } from "../providers/difficulty";
 
 const route = useRoute()
+const levels = useLevels()
 const level = ref<Level>(null)
 const field = ref<Field>(null)
 const cursor = ref<Cursor>(null)
-const levels = useLevels()
 
 watch(() => route.params, () => {
-  const { id, severity } = route.params as { id: number; severity: 1 | 2 | 3 | 4 }
+  const { id, difficulty } = route.params as { id: number; difficulty: DifficultyLevel }
   level.value = levels[id]
   field.value = levels[id].field
   cursor.value = levels[id].cursor
 
-  setTimeout(() => shuffleFiled(cursor.value as Cursor, severity), 1)
+  setTimeout(() => shuffleFiled(cursor.value as Cursor, difficulty), 1)
 }, { immediate: true })
 
 const onCellClick = (cell: Cell) => {

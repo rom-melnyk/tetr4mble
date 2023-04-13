@@ -20,7 +20,10 @@ const navigate = (path: string) => {
 </script>
 
 <template>
-  <div v-if="!isHidden" class="shade absolute inset-0" @click="toggleHidden"></div>
+  <div v-if="!isHidden"
+       class="absolute inset-0"
+       @click="toggleHidden"
+  ></div>
 
   <AppButton v-if="isHidden"
              icon="⁝"

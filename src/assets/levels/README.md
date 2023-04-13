@@ -30,7 +30,7 @@ This provides the initial level setup like this:
 
 1. The JSON should use the structure:
    ```ts
-   type LevelJSON = Array<{
+   type LevelsJSON = Array<{
      description: string;
      shuffle?: string[];
      level: string[];
@@ -43,12 +43,12 @@ This provides the initial level setup like this:
 1. The playfield is normalized upon loading: the empty rows and columns are removed. So following two produce similar levels:
    ```json
    [{
-     "levels": [
+     "level": [
        "11",
        "11"
      ]
    }, {
-     "levels": [
+     "level": [
        "  11",
        "  11  ",
        "  "

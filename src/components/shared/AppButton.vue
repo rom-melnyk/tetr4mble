@@ -34,7 +34,7 @@ defineProps({
   }
 
   i {
-    @apply w-[2em];
+    @apply w-[2em] font-bold;
   }
 
   span {

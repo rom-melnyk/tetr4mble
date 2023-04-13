@@ -38,6 +38,9 @@ onUnmounted(() => window.removeEventListener("keydown", kbdListener))
 </script>
 
 <template>
+  <Teleport to="#tetr4mble > header">
+    <MiniField :field="field" class="mx-auto" />
+  </Teleport>
+
   <PlayField :field="field" :cursor="cursor" @cell-click="onCellClick" @cursor-click="onCursorClick" />
-  <MiniField :field="field" />
 </template>

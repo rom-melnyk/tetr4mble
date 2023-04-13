@@ -13,24 +13,25 @@ const cells = props.field.getOriginalCells()
 </script>
 
 <template>
-  <Teleport to="#tetr4mble > header">
-    <div class="relative h-[6rem] mx-auto"
-         :style="{ 'aspect-ratio': `${field.width}/${field.height}` }"
-    >
-      <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" :is-mini-filed="true" />
+  <div class="relative"
+       :style="{
+                 'aspect-ratio': `${field.width}/${field.height}`,
+                 height: `${field.height / 2}em`
+               }"
+  >
+    <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" :is-mini-filed="true" />
 
-      <PlayCell v-for="cell in cells"
-                :class="`cell-${cell.type}`"
-                :x="cellWidth * cell.x"
-                :y="cellHeight * cell.y"
-                :width="cellWidth"
-                :height="cellHeight"
-      >
-        <PlayCellIcon
-          :cell-type="cell.type"
-          :class="`cell-${cell.type} w-[80%] m-[10%]`"
-        />
-      </PlayCell>
-    </div>
-  </Teleport>
+    <PlayCell v-for="cell in cells"
+              :class="`cell-${cell.type}`"
+              :x="cellWidth * cell.x"
+              :y="cellHeight * cell.y"
+              :width="cellWidth"
+              :height="cellHeight"
+    >
+      <PlayCellIcon
+        :cell-type="cell.type"
+        :class="`cell-${cell.type} w-[80%] m-[10%]`"
+      />
+    </PlayCell>
+  </div>
 </template>

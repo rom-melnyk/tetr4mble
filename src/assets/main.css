@@ -4,7 +4,7 @@
 
 body {
   @apply h-[100vh] flex justify-center items-center;
-  @apply bg-chalk text-asphalt dark:bg-asphalt dark:text-chalk;
+  @apply bg-paper text-ink dark:bg-ink dark:text-paper;
 }
 
 #tetr4mble {
@@ -16,11 +16,11 @@ body {
   /* Large(r) screens */
   @media screen and (min-width: 1024px) {
     @apply w-[1024px];
-    @apply border-l border-r border-asphalt dark:border-chalk;
+    @apply border-l border-r border-ink dark:border-paper;
   }
   @media screen and (min-height: 1024px) {
     @apply h-[1024px];
-    @apply border-t border-b border-asphalt dark:border-chalk;
+    @apply border-t border-b border-ink dark:border-paper;
   }
   @media screen and (min-width: 1024px) and (min-height: 1024px) {
     @apply rounded;

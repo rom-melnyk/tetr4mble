@@ -13,7 +13,7 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
     <!-- Teleport target -->
   </header>
 
-  <main class="flex-1 p-4 lg:p-8 overflow-hidden border-y border-y-asphalt dark:border-y-chalk transition-all"
+  <main class="flex-1 p-4 lg:p-8 overflow-hidden border-y border-y-ink dark:border-y-paper transition-all"
         :class="{ 'with-blur': isBlurred }"
   >
     <div class="h-full overflow-hidden">
@@ -21,12 +21,10 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
     </div>
   </main>
 
-  <footer class="flex flex-row justify-between py-2 px-4 lg:px-8 transition-all"
+  <footer class="py-2 px-4 lg:px-8 transition-all"
           :class="{ 'with-blur': isBlurred }"
   >
-    <span class="text-sm">Tetr④mble</span>
-    <span class="text-sm">Stats</span>
-    <span class="text-sm text-asphalt-light dark:text-chalk-dark">&copy; rom</span>
+    <!-- Teleport target -->
   </footer>
 </template>
 

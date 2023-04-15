@@ -11,12 +11,12 @@ module.exports = {
       transparent: "transparent",
       current: "currentColor",
       "white": "#ffffff",
-      "chalk": {
+      "paper": {
         DEFAULT: "hsl(190, 10%, 100%)",
         dark: "hsl(190, 10%, 90%)",
         darker: "hsl(190, 15%, 85%)",
       },
-      "asphalt": {
+      "ink": {
         DEFAULT: "hsl(190, 10%, 20%)",
         light: "hsl(190, 15%, 25%)",
       },

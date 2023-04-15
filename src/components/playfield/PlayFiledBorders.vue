@@ -17,10 +17,10 @@ defineProps<{
             :width="cellWidth"
             :height="cellHeight"
             :class="{
-              'border-t border-t-chalk-dark dark:border-t-asphalt-light': cell.borders.has('t'),
-              'border-r border-r-chalk-dark dark:border-r-asphalt-light': cell.borders.has('r'),
-              'border-b border-b-chalk-dark dark:border-b-asphalt-light': cell.borders.has('b'),
-              'border-l border-l-chalk-dark dark:border-l-asphalt-light': cell.borders.has('l'),
+              'border-t border-t-paper-dark dark:border-t-ink-light': cell.borders.has('t'),
+              'border-r border-r-paper-dark dark:border-r-ink-light': cell.borders.has('r'),
+              'border-b border-b-paper-dark dark:border-b-ink-light': cell.borders.has('b'),
+              'border-l border-l-paper-dark dark:border-l-ink-light': cell.borders.has('l'),
               'rounded-tr-lg': !isMiniFiled && cell.borders.has('t') && cell.borders.has('r'),
               'rounded-br-lg': !isMiniFiled && cell.borders.has('b') && cell.borders.has('r'),
               'rounded-bl-lg': !isMiniFiled && cell.borders.has('b') && cell.borders.has('l'),

@@ -31,8 +31,8 @@ const navigate = (path: string) => {
              @click="toggleHidden"
   />
   <aside class="absolute top-0 bottom-0 p-4 lg:p-8
-                border-l border-l-asphalt dark:border-l-chalk
-                bg-chalk dark:bg-asphalt
+                border-l border-l-ink dark:border-l-paper
+                bg-paper dark:bg-ink
                 transition-all"
          :class="[ isHidden ? '-right-[8em]' : 'right-0' ]"
   >

@@ -1,6 +1,7 @@
 ﻿<script lang="ts" setup>
 import { computed } from "vue"
 import BasicHeader from "../components/header-footer/BasicHeader.vue"
+import BasicFooter from "../components/header-footer/BasicFooter.vue"
 import MiniField from "../components/playfield/MiniField.vue"
 import { useLevels } from "../providers/level"
 import { useDifficulty, DifficultyLevel } from "../providers/difficulty"
@@ -22,7 +23,7 @@ const difficultyWording = computed(() => _diffLevelWording[difficulty.level.valu
 
   <div class="h-full flex flex-col">
     <h1 class="mb-4 lg:mb-8 text-2xl">Select level</h1>
-    <div class="mb-4 lg:mb-8 pb-4 lg:pb-8 border-b border-b-chalk-dark dark:border-b-asphalt-light flex flex-row">
+    <div class="mb-4 lg:mb-8 pb-4 lg:pb-8 border-b border-b-paper-dark dark:border-b-ink-light flex flex-row">
       <span class="mr-4 lg:mr-8">Difficulty</span>
       <span>
         <input type="range"
@@ -30,7 +31,7 @@ const difficultyWording = computed(() => _diffLevelWording[difficulty.level.valu
                class="w-[12em] mr-2 align-middle"
                v-model.number="difficulty.level.value"
         />
-        <span class="text-sm align-middle text-chalk-dark dark:text-asphalt-light">
+        <span class="text-sm align-middle text-paper-dark dark:text-ink-light">
           {{ difficultyWording }}
         </span>
       </span>
@@ -51,4 +52,6 @@ const difficultyWording = computed(() => _diffLevelWording[difficulty.level.valu
       </table>
     </div>
   </div>
+
+  <BasicFooter />
 </template>

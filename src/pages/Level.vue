@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, watch, ref } from "vue"
 import { useRoute } from "vue-router"
 import PlayField from "../components/playfield/PlayField.vue";
 import MiniField from "../components/playfield/MiniField.vue";
+import StatsFooter from "../components/header-footer/StatsFooter.vue"
 import { useLevels, Level } from "../providers/level";
 import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
@@ -14,14 +15,16 @@ const levels = useLevels()
 const level = ref<Level>(null)
 const field = ref<Field>(null)
 const cursor = ref<Cursor>(null)
+const difficultyLevel = ref<DifficultyLevel>(1)
 let timerId: number
 
 watch(() => route.params, () => {
   const { id, difficulty } = route.params as { id: number; difficulty: DifficultyLevel }
+  difficultyLevel.value = Number(difficulty) as DifficultyLevel
   level.value = levels[id]
   field.value = levels[id].field
   cursor.value = levels[id].cursor
-  level.value.stats.setDifficulty(Number(difficulty) as DifficultyLevel)
+  level.value.stats.setDifficulty(difficultyLevel.value)
 
   setTimeout(() => shuffleFiled(cursor.value as Cursor, difficulty), 1)
   timerId = setInterval(() => level.value.stats.bumpTime(), 1000)
@@ -64,10 +67,5 @@ onUnmounted(() => {
 
   <PlayField :field="field" :cursor="cursor" @cell-click="onCellClick" @cursor-click="doRotate" />
 
-  <Teleport to="#tetr4mble > footer">
-    <div>
-      <span class="mr-4 lg:mr-8">↻ {{level.stats.currentMoves}}</span>
-      <span class="mr-4 lg:mr-8">🕑 {{level.stats.currentTime}}</span>
-    </div>
-  </Teleport>
+  <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />
 </template>

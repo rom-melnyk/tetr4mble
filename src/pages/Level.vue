@@ -9,6 +9,7 @@ import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
 import { Cursor, shuffleFiled } from "../providers/cursor";
 import { DifficultyLevel } from "../providers/difficulty";
+import { debounce } from "../utils";
 
 const route = useRoute()
 const levels = useLevels()
@@ -16,6 +17,9 @@ const level = ref<Level>(null)
 const field = ref<Field>(null)
 const cursor = ref<Cursor>(null)
 const difficultyLevel = ref<DifficultyLevel>(1)
+
+let originalCells: Cell[]
+const isFinished = ref(false)
 let timerId: number
 
 watch(() => route.params, () => {
@@ -25,19 +29,28 @@ watch(() => route.params, () => {
   field.value = levels[id].field
   cursor.value = levels[id].cursor
   level.value.stats.setDifficulty(difficultyLevel.value)
+  originalCells = field.value.getOriginalCells()
 
   setTimeout(() => shuffleFiled(cursor.value as Cursor, difficulty), 1)
   timerId = setInterval(() => level.value.stats.bumpTime(), 1000)
 }, { immediate: true })
 
-const onCellClick = (cell: Cell) => {
-  // e.preventDefault()
-  cursor.value.approach(cell.x, cell.y)
-}
+const checkForFinished = debounce(() => {
+  const allCellsMatchOriginalType = originalCells.every(
+    ({ x, y, type }) => field.value.getCellAt(x, y).type === type
+  );
+  if (allCellsMatchOriginalType) isFinished.value = true
+}, 100)
 
 const doRotate = () => {
   cursor.value.rotate()
   level.value.stats.bumpMove()
+  checkForFinished()
+}
+
+const onCellClick = (cell: Cell) => {
+  // e.preventDefault()
+  cursor.value.approach(cell.x, cell.y)
 }
 
 const kbdListener = (e: KeyboardEvent) => {
@@ -66,6 +79,10 @@ onUnmounted(() => {
   </Teleport>
 
   <PlayField :field="field" :cursor="cursor" @cell-click="onCellClick" @cursor-click="doRotate" />
+
+  <div v-if="isFinished" class="mx-auto mt-4 lg:mt-4">
+    🎉 Finished!
+  </div>
 
   <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />
 </template>

@@ -2,6 +2,7 @@
 import Logo from "./Logo.vue"
 import { LevelStats } from "../../providers/stats"
 import { DifficultyLevel } from "../../providers/difficulty"
+import { formatTime } from "../../utils";
 
 defineProps<{
   name: string;
@@ -19,7 +20,7 @@ defineProps<{
         <span class="text-ink dark:text-paper mr-1">↻</span>
         <span class="mr-4 text-sm">{{ stats.currentMoves }}</span>
         <span class="text-ink dark:text-paper mr-1">🕑</span>
-        <span class="text-sm">{{ stats.currentTime }}</span>
+        <span class="text-sm">{{ formatTime(stats.currentTime) }}</span>
       </div>
     </div>
   </Teleport>

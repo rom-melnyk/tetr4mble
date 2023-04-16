@@ -39,6 +39,7 @@ const cells = props.field.getAllCells()
     </PlayCell>
 
     <PlayFiledCursor
+      v-if="cursor"
       :cursor="cursor"
       :cell-width="cellWidth"
       :cell-height="cellHeight"

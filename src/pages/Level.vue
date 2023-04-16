@@ -4,12 +4,13 @@ import { useRoute } from "vue-router"
 import PlayField from "../components/playfield/PlayField.vue";
 import MiniField from "../components/playfield/MiniField.vue";
 import StatsFooter from "../components/header-footer/StatsFooter.vue"
+import AppButton from "../components/shared/AppButton.vue";
 import { useLevels, Level } from "../providers/level";
 import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
 import { Cursor, shuffleFiled } from "../providers/cursor";
 import { DifficultyLevel } from "../providers/difficulty";
-import { debounce } from "../utils";
+import { debounce, formatTime } from "../utils";
 
 const route = useRoute()
 const levels = useLevels()
@@ -31,30 +32,41 @@ watch(() => route.params, () => {
   level.value.stats.setDifficulty(difficultyLevel.value)
   originalCells = field.value.getOriginalCells()
 
-  setTimeout(() => shuffleFiled(cursor.value as Cursor, difficulty), 1)
+  setTimeout(() => {
+    shuffleFiled(cursor.value as Cursor, difficulty)
+    checkProgress()
+  }, 1)
   timerId = setInterval(() => level.value.stats.bumpTime(), 1000)
 }, { immediate: true })
 
-const checkForFinished = debounce(() => {
+const checkProgress = debounce(() => {
   const allCellsMatchOriginalType = originalCells.every(
     ({ x, y, type }) => field.value.getCellAt(x, y).type === type
   );
-  if (allCellsMatchOriginalType) isFinished.value = true
+  if (!allCellsMatchOriginalType) return
+
+  isFinished.value = true
+  clearInterval(timerId)
+  level.value.stats.finish()
 }, 100)
 
 const doRotate = () => {
   cursor.value.rotate()
   level.value.stats.bumpMove()
-  checkForFinished()
+  checkProgress()
 }
 
 const onCellClick = (cell: Cell) => {
   // e.preventDefault()
+  if (isFinished.value) return
+
   cursor.value.approach(cell.x, cell.y)
 }
 
 const kbdListener = (e: KeyboardEvent) => {
   // e.preventDefault()
+  if (isFinished.value) return
+
   switch (e.key) {
     case "ArrowUp": return cursor.value.move(0, -1)
     case "ArrowRight": return cursor.value.move(1, 0)
@@ -78,10 +90,28 @@ onUnmounted(() => {
     <MiniField :field="field" class="mx-auto" />
   </Teleport>
 
-  <PlayField :field="field" :cursor="cursor" @cell-click="onCellClick" @cursor-click="doRotate" />
+  <div class="h-full flex flex-col">
+    <PlayField
+      :field="field"
+      :cursor="isFinished ? null : cursor"
+      class="flex-1"
+      @cell-click="onCellClick"
+      @cursor-click="doRotate" />
 
-  <div v-if="isFinished" class="mx-auto mt-4 lg:mt-4">
-    🎉 Finished!
+    <div class="mt-4 lg:mt-8 h-8 text-center">
+      <span v-if="isFinished">
+        <AppButton icon="<" />
+
+        <span class="mx-8 lg:mx-16 text-xl">
+          🎉 Finished in {{ formatTime(level.stats.currentTime) }} with {{ level.stats.currentMoves }} moves!
+        </span>
+
+        <span>
+          <AppButton icon="↻" class="mr-4 lg:mr-8" />
+          <AppButton icon=">" />
+        </span>
+      </span>
+    </div>
   </div>
 
   <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />

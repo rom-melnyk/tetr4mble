@@ -9,7 +9,7 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
 <template>
   <Menu @hide="toggleBlurred" />
 
-  <header class="box-content p-4 lg:p-8 transition-all" :class="{ 'with-blur': isBlurred }">
+  <header class="box-content p-4 min-h-[2rem] lg:p-8 transition-all" :class="{ 'with-blur': isBlurred }">
     <!-- Teleport target -->
   </header>
 

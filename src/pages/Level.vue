@@ -98,7 +98,7 @@ onUnmounted(() => {
       @cell-click="onCellClick"
       @cursor-click="doRotate" />
 
-    <div class="mt-4 lg:mt-8 h-8 text-center">
+    <div class="mt-4 lg:mt-8 h-16 text-center">
       <span v-if="isFinished">
         <AppButton icon="<" />
 

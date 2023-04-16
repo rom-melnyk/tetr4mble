@@ -1,44 +1,33 @@
 ﻿<script lang="ts" setup>
-defineProps({
-  icon: String,
-  title: {
-    type: String,
-    required: false,
-    default: ""
-  },
-  disabled: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
-})
+defineProps<{
+  icon?: string;
+  title?: string;
+}>()
 </script>
 
 <template>
-  <span class="button" :class="{ disabled }">
-    <i>{{ icon }}</i>
+  <button type="button" class="border-0 outline-0 text-accent cursor-pointer">
+    <i v-if="icon">{{ icon }}</i>
     <span v-if="title">{{ title }}</span>
-  </span>
+  </button>
 </template>
 
 <style scoped>
-.button {
-  @apply border-accent rounded border-transparent hover:border-accent text-accent cursor-pointer;
-
-  &.disabled {
-    @apply cursor-not-allowed;
+button {
+  &[disabled] {
+    @apply cursor-not-allowed text-ink-light dark:text-paper-dark;
   }
 
-  > * {
-    @apply inline-block align-middle h-[2em] leading-[2em] not-italic text-center;
+  & > * {
+    @apply inline-block align-middle py-4 leading-[1] not-italic text-center;
   }
 
-  i {
-    @apply w-[2em] font-bold;
+  & > i {
+    @apply w-[3em] font-bold;
   }
 
-  span {
-    @apply px-4;
+  & > span {
+    @apply px-8;
   }
 }
 </style>

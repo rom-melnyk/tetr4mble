@@ -1,5 +1,7 @@
 ﻿import { DifficultyLevel } from "./difficulty"
 
+type StoredStats = Pick<LevelStats, "bestTime" | "bestMoves">
+
 export class LevelStats {
   private static lsKey(lid: number, difficulty: DifficultyLevel) {
     return `T4/L${lid}/D${difficulty}/stats`
@@ -29,22 +31,26 @@ export class LevelStats {
     try {
       const parsed = JSON.parse(
         localStorage.getItem(LevelStats.lsKey(this.levelId, this.difficulty))
-      ) as LevelStats
+      ) as StoredStats
 
       this.bestTime = parsed.bestTime || 0
       this.bestMoves = parsed.bestMoves || 0
-      this.currentTime = parsed.currentTime || 0
-      this.currentMoves = parsed.currentMoves || 0
-      this.progress = parsed.progress || 0
+      this.currentTime = 0
+      this.currentMoves = 0
+      this.progress = 0
     } catch (e) {
       // Fall back to default values
     }
   }
 
   private store() {
+    const statsToStore: StoredStats = {
+      bestTime: this.bestTime,
+      bestMoves: this.bestMoves,
+    }
     localStorage.setItem(
       LevelStats.lsKey(this.levelId, this.difficulty),
-      JSON.stringify(this)
+      JSON.stringify(statsToStore)
     )
   }
 
@@ -64,11 +70,17 @@ export class LevelStats {
   }
 
   public finish() {
-    if (this.bestTime === 0 || this.currentTime < this.bestTime)
-      this.bestTime = this.currentTime
-    if (this.bestMoves === 0 || this.currentMoves < this.bestMoves)
-      this.bestMoves = this.currentMoves
+    if (this.isBestTime()) this.bestTime = this.currentTime
+    if (this.isBestMoves()) this.bestMoves = this.currentMoves
     this.progress = 100
     this.store()
+  }
+
+  public isBestTime() {
+    return this.bestTime === 0 || this.currentTime < this.bestTime
+  }
+
+  public isBestMoves() {
+    return this.bestMoves === 0 || this.currentMoves < this.bestMoves
   }
 }

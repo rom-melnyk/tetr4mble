@@ -1,58 +1,70 @@
 ﻿<script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref } from "vue"
+import { onMounted, onUnmounted, watch, ref, UnwrapRef } from "vue";
 import { useRoute } from "vue-router"
 import PlayField from "../components/playfield/PlayField.vue";
 import MiniField from "../components/playfield/MiniField.vue";
 import StatsFooter from "../components/header-footer/StatsFooter.vue"
-import AppButton from "../components/shared/AppButton.vue";
+import FinishedLevel from "../components/FinishedLevel.vue";
 import { useLevels, Level } from "../providers/level";
 import { Field } from "../providers/field";
 import { Cell } from "../providers/cell";
 import { Cursor, shuffleFiled } from "../providers/cursor";
 import { DifficultyLevel } from "../providers/difficulty";
-import { debounce, formatTime } from "../utils";
+import { LevelStats } from "../providers/stats";
+import { debounce } from "../utils";
 
 const route = useRoute()
 const levels = useLevels()
 const level = ref<Level>(null)
+let stats: UnwrapRef<LevelStats>
 const field = ref<Field>(null)
 const cursor = ref<Cursor>(null)
 const difficultyLevel = ref<DifficultyLevel>(1)
 
 let originalCells: Cell[]
 const isFinished = ref(false)
+const isBestTime = ref(false)
+const isBestMoves = ref(false)
 let timerId: number
 
 watch(() => route.params, () => {
   const { id, difficulty } = route.params as { id: number; difficulty: DifficultyLevel }
   difficultyLevel.value = Number(difficulty) as DifficultyLevel
   level.value = levels[id]
+  stats = level.value.stats
   field.value = levels[id].field
   cursor.value = levels[id].cursor
-  level.value.stats.setDifficulty(difficultyLevel.value)
+
+  stats.setDifficulty(difficultyLevel.value)
   originalCells = field.value.getOriginalCells()
 
   setTimeout(() => {
     shuffleFiled(cursor.value as Cursor, difficulty)
     checkProgress()
   }, 1)
-  timerId = setInterval(() => level.value.stats.bumpTime(), 1000)
+  timerId = setInterval(() => stats.bumpTime(), 1000)
 }, { immediate: true })
 
 const checkProgress = debounce(() => {
-  const allCellsMatchOriginalType = originalCells.every(
+  const numMatchingCells = originalCells.filter(
     ({ x, y, type }) => field.value.getCellAt(x, y).type === type
-  );
-  if (!allCellsMatchOriginalType) return
+  ).length
+  if (numMatchingCells < originalCells.length) {
+    stats.setProgress(Math.floor(numMatchingCells / originalCells.length * 100))
+    return
+  }
 
   isFinished.value = true
+  if (stats.isBestTime()) isBestTime.value = true
+  if (stats.isBestMoves()) isBestMoves.value = true
+
   clearInterval(timerId)
-  level.value.stats.finish()
+  stats.finish()
 }, 100)
 
 const doRotate = () => {
   cursor.value.rotate()
-  level.value.stats.bumpMove()
+  stats.bumpMove()
   checkProgress()
 }
 
@@ -98,20 +110,15 @@ onUnmounted(() => {
       @cell-click="onCellClick"
       @cursor-click="doRotate" />
 
-    <div class="mt-4 lg:mt-8 h-16 text-center">
-      <span v-if="isFinished">
-        <AppButton icon="<" />
-
-        <span class="mx-8 lg:mx-16 text-xl">
-          🎉 Finished in {{ formatTime(level.stats.currentTime) }} with {{ level.stats.currentMoves }} moves!
-        </span>
-
-        <span>
-          <AppButton icon="↻" class="mr-4 lg:mr-8" />
-          <AppButton icon=">" />
-        </span>
-      </span>
-    </div>
+    <footer class="mt-4 lg:mt-8 h-16 text-center">
+      <FinishedLevel
+        v-if="isFinished"
+        :stats="stats"
+        :difficulty="difficultyLevel"
+        :name="level.description"
+        :isBestTime="isBestTime"
+        :isBestMoves="isBestMoves" />
+    </footer>
   </div>
 
   <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />

@@ -17,10 +17,10 @@ defineProps<{
       <Logo class="h-4 text-ink dark:text-paper"/>
       <div class="text-sm">{{ name }}</div>
       <div>
-        <span class="text-ink dark:text-paper mr-1">↻</span>
-        <span class="mr-4 text-sm">{{ stats.currentMoves }}</span>
         <span class="text-ink dark:text-paper mr-1">🕑</span>
-        <span class="text-sm">{{ formatTime(stats.currentTime) }}</span>
+        <span class="mr-4 text-sm">{{ formatTime(stats.currentTime) }}</span>
+        <span class="text-ink dark:text-paper mr-1">↻</span>
+        <span class="text-sm">{{ stats.currentMoves }}</span>
       </div>
     </div>
   </Teleport>

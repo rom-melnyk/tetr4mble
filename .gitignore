@@ -16,6 +16,8 @@ coverage
 
 /cypress/videos/
 /cypress/screenshots/
+.fontello.dev/
+!.fontello.dev/config.json
 
 # Editor directories and files
 .vscode/*

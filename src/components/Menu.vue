@@ -26,7 +26,7 @@ const navigate = (path: string) => {
   ></div>
 
   <AppButton v-if="isHidden"
-             icon="⁝"
+             icon="icon-ellipsis-vert"
              class="absolute top-4 right-4 lg:top-8 lg:right-8"
              @click="toggleHidden"
   />
@@ -36,9 +36,9 @@ const navigate = (path: string) => {
                 transition-all"
          :class="[ isHidden ? '-right-[8em]' : 'right-0' ]"
   >
-    <AppButton icon=">" class="block mb-8 lg:mb-16" @click="toggleHidden" />
-    <AppButton icon="≡" class="block mb-4 lg:mb-8" @click="navigate('/select-level')" />
-    <AppButton icon="?" class="block mb-4 lg:mb-8" @click="navigate('/how-to')" />
+    <AppButton icon="icon-right-open" class="block mb-8 lg:mb-16" @click="toggleHidden" />
+    <AppButton icon="icon-menu" class="block mb-4 lg:mb-8" @click="navigate('/select-level')" />
+    <AppButton icon="icon-help" class="block mb-4 lg:mb-8" @click="navigate('/how-to')" />
     <AppButton icon="4" class="block mb-4 lg:mb-8" @click="navigate('/about')" />
   </aside>
 </template>

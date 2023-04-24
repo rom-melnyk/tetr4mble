@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <button type="button" class="border-0 outline-0 text-accent cursor-pointer">
-    <i v-if="icon">{{ icon }}</i>
+    <i v-if="icon" :class="icon" />
     <span v-if="title">{{ title }}</span>
   </button>
 </template>

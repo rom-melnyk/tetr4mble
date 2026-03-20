@@ -1,11 +1,11 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import { router } from "./router";
+import { createApp } from "vue"
+import App from "./App.vue"
+import { router } from "./router"
 
 import levelsJSON from "./assets/levels/levels.json"
-import { loadLevels } from "./providers/level";
+import { loadLevels } from "./providers/level"
 
-import './assets/main.css'
+import "./assets/main.css"
 
 export const T4 = {
   init() {
@@ -13,7 +13,7 @@ export const T4 = {
 
     createApp(App)
       .use(router)
-      .mount('#tetr4mble')
+      .mount("#tetr4mble")
   }
 }
 

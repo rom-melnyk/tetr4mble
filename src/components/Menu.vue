@@ -7,11 +7,11 @@ const emit = defineEmits(["hide" /** @param {boolean} isHidden */])
 const router = useRouter()
 const isHidden = ref(true)
 
-emit('hide', isHidden.value)
+emit("hide", isHidden.value)
 
 const toggleHidden = () => {
   isHidden.value = !isHidden.value
-  emit('hide', isHidden.value)
+  emit("hide", isHidden.value)
 }
 const navigate = (path: string) => {
   router.push(path)

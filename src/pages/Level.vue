@@ -15,21 +15,24 @@ import { debounce } from "../utils";
 
 const route = useRoute()
 const levels = useLevels()
-const level = ref<Level>(null)
+const level = ref<Level>(null as unknown as Level)
 let stats: UnwrapRef<LevelStats>
-const field = ref<Field>(null)
-const cursor = ref<Cursor>(null)
+const field = ref<Field>(null as unknown as Field)
+const cursor = ref<Cursor>(null as unknown as Cursor)
 const difficultyLevel = ref<DifficultyLevel>(1)
 
 let originalCells: Cell[]
 const isFinished = ref(false)
 const isBestTime = ref(false)
 const isBestMoves = ref(false)
-let timerId: number
+let timerId: NodeJS.Timeout
 
 watch(() => route.params, () => {
-  const { id, difficulty } = route.params as { id: number; difficulty: DifficultyLevel }
+  const { id, difficulty } = route.params as unknown as { id: number; difficulty: DifficultyLevel }
   difficultyLevel.value = Number(difficulty) as DifficultyLevel
+  if (!levels[id] || isNaN(difficultyLevel.value)) {
+      throw new Error(`Failed loading level "${id}" with difficulty ${difficulty}`)
+  }
   level.value = levels[id]
   stats = level.value.stats
   field.value = levels[id].field
@@ -47,7 +50,7 @@ watch(() => route.params, () => {
 
 const checkProgress = debounce(() => {
   const numMatchingCells = originalCells.filter(
-    ({ x, y, type }) => field.value.getCellAt(x, y).type === type
+    ({ x, y, type }) => field.value!.getCellAt(x, y)!.type === type
   ).length
   if (numMatchingCells < originalCells.length) {
     stats.setProgress(Math.floor(numMatchingCells / originalCells.length * 100))
@@ -63,7 +66,7 @@ const checkProgress = debounce(() => {
 }, 100)
 
 const doRotate = () => {
-  cursor.value.rotate()
+  cursor.value!.rotate()
   stats.bumpMove()
   checkProgress()
 }
@@ -72,7 +75,7 @@ const onCellClick = (cell: Cell) => {
   // e.preventDefault()
   if (isFinished.value) return
 
-  cursor.value.approach(cell.x, cell.y)
+  cursor.value!.approach(cell.x, cell.y)
 }
 
 const kbdListener = (e: KeyboardEvent) => {
@@ -80,10 +83,10 @@ const kbdListener = (e: KeyboardEvent) => {
   if (isFinished.value) return
 
   switch (e.key) {
-    case "ArrowUp": return cursor.value.move(0, -1)
-    case "ArrowRight": return cursor.value.move(1, 0)
-    case "ArrowDown": return cursor.value.move(0, 1)
-    case "ArrowLeft": return cursor.value.move(-1, 0)
+    case "ArrowUp": return cursor.value!.move(0, -1)
+    case "ArrowRight": return cursor.value!.move(1, 0)
+    case "ArrowDown": return cursor.value!.move(0, 1)
+    case "ArrowLeft": return cursor.value!.move(-1, 0)
     case " ": return doRotate()
     default:
     // console.info(`Pressed unrecognized key: <${e.key}>`)

@@ -29,6 +29,8 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
 </template>
 
 <style scoped>
+@reference "./assets/main.css";
+
 .with-blur {
   @apply blur-md opacity-25 -z-10;
 }

@@ -49,6 +49,8 @@ const cells = props.field.getAllCells()
 </template>
 
 <style>
+@reference "../../assets/main.css";
+
 /*
  * Must be represented here otherwise the TW compiler ignores them.
  * Must NOT be `scoped` because it's used by the <MiniFiled> as well.

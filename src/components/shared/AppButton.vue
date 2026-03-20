@@ -13,6 +13,8 @@ defineProps<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 button {
   &[disabled] {
     @apply cursor-not-allowed text-ink-light dark:text-paper-dark;

@@ -66,7 +66,7 @@ const checkProgress = debounce(() => {
 }, 100)
 
 const doRotate = () => {
-  cursor.value!.rotate()
+  cursor.value.rotate()
   stats.bumpMove()
   checkProgress()
 }
@@ -75,7 +75,7 @@ const onCellClick = (cell: Cell) => {
   // e.preventDefault()
   if (isFinished.value) return
 
-  cursor.value!.approach(cell.x, cell.y)
+  cursor.value.approach(cell.x, cell.y)
 }
 
 const kbdListener = (e: KeyboardEvent) => {
@@ -83,10 +83,10 @@ const kbdListener = (e: KeyboardEvent) => {
   if (isFinished.value) return
 
   switch (e.key) {
-    case "ArrowUp": return cursor.value!.move(0, -1)
-    case "ArrowRight": return cursor.value!.move(1, 0)
-    case "ArrowDown": return cursor.value!.move(0, 1)
-    case "ArrowLeft": return cursor.value!.move(-1, 0)
+    case "ArrowUp": return cursor.value.move(0, -1)
+    case "ArrowRight": return cursor.value.move(1, 0)
+    case "ArrowDown": return cursor.value.move(0, 1)
+    case "ArrowLeft": return cursor.value.move(-1, 0)
     case " ": return doRotate()
     default:
     // console.info(`Pressed unrecognized key: <${e.key}>`)

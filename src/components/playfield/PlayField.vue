@@ -1,12 +1,12 @@
 ﻿<script setup lang="ts">
-import { Field } from "../../providers/field"
-import { Cursor } from "../../providers/cursor";
+import { type Field } from "../../providers/field"
+import { type Cursor } from "../../providers/cursor"
 import PlayCell from "./playcell/PlayCell.vue"
 import PlayCellIcon from "./playcell/PlayCellIcon.vue"
-import PlayFiledBorders from "./PlayFiledBorders.vue";
-import PlayFiledCursor from "./PlayFiledCursor.vue";
+import PlayFiledBorders from "./PlayFiledBorders.vue"
+import PlayFiledCursor from "./PlayFiledCursor.vue"
 
-const props = defineProps<{ field: Field; cursor: Cursor }>()
+const props = defineProps<{ field: Field; cursor: Cursor; }>()
 const emit = defineEmits([
   "cellClick", /** @param {Cell} cell */
   "cursorClick",
@@ -19,37 +19,46 @@ const cells = props.field.getAllCells()
 </script>
 
 <template>
-  <div class="relative max-w-full md:max-w-[80%] max-h-full mx-auto"
-       :style="{ 'aspect-ratio': `${field.width}/${field.height}` }"
-  >
-    <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" />
-
-    <PlayCell v-for="cell in cells"
-              :class="`cell-${cell.type}`"
-              :x="cellWidth * cell.x"
-              :y="cellHeight * cell.y"
-              :width="cellWidth"
-              :height="cellHeight"
-              @click="emit('cellClick', cell)"
+  <!-- Container ensures dynamis sizing with respect to PF aspect ratio -->
+  <div style="container-type: size;">
+    <div class="mx-auto relative"
+         :style="{
+           'aspect-ratio': `${field.width}/${field.height}`,
+           // Don't exceed height-constrained width
+           width: `min(100cqw, 100cqh * (${field.width}/${field.height}))`,
+           // Don't exceed width-constrained height (reversed aspect ratio!)
+           height: `min(100cqh, 100cqw * (${field.height}/${field.width}))`,
+         }"
     >
-      <PlayCellIcon
-        :cell-type="cell.type"
-        :class="`cell-${cell.type} w-[80%] m-[10%]`"
-      />
-    </PlayCell>
+      <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" />
 
-    <PlayFiledCursor
-      v-if="cursor"
-      :cursor="cursor"
-      :cell-width="cellWidth"
-      :cell-height="cellHeight"
-      @click="emit('cursorClick')"
-    />
+      <PlayCell v-for="cell in cells"
+                :class="`cell-${cell.type}`"
+                :x="cellWidth * cell.x"
+                :y="cellHeight * cell.y"
+                :width="cellWidth"
+                :height="cellHeight"
+                @click="emit('cellClick', cell)"
+      >
+        <PlayCellIcon
+          :cell-type="cell.type"
+          :class="`cell-${cell.type} w-[80%] m-[10%]`"
+        />
+      </PlayCell>
+
+      <PlayFiledCursor
+        v-if="cursor"
+        :cursor="cursor"
+        :cell-width="cellWidth"
+        :cell-height="cellHeight"
+        @click="emit('cursorClick')"
+      />
+    </div>
   </div>
 </template>
 
 <style>
-@reference "../../assets/main.css";
+@reference "../../styles/main.css";
 
 /*
  * Must be represented here otherwise the TW compiler ignores them.

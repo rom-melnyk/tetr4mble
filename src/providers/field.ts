@@ -38,6 +38,10 @@ export class Field {
   public readonly width: number
   public readonly height: number
 
+  /**
+   * The original cell setup from the JSON file.
+   * `if (cells == originalCells) level_is_finished`
+   */
   private readonly originalCells = new Map<string, Cell>()
   private readonly cells = new Map<string, Cell>()
 

@@ -1,6 +1,6 @@
 ﻿<script lang="ts" setup>
 import PlayCell from "./playcell/PlayCell.vue"
-import { BorderCell } from "../../providers/cell";
+import { type BorderCell } from "../../providers/cell"
 
 defineProps<{
   cellWidth: number;

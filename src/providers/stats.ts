@@ -1,4 +1,4 @@
-﻿import { DifficultyLevel } from "./difficulty"
+﻿import { type DifficultyLevel } from "./difficulty"
 
 type StoredStats = Pick<LevelStats, "bestTime" | "bestMoves">
 

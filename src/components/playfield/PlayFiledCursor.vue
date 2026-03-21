@@ -1,10 +1,10 @@
 ﻿<script lang="ts" setup>
 import PlayCell from "./playcell/PlayCell.vue"
-import { Cursor } from "../../providers/cursor"
+import { type Cursor } from "../../providers/cursor"
 
 defineProps<{
-  cellWidth: number;
-  cellHeight: number;
+  cellWidth: number
+  cellHeight: number
   cursor: Cursor
 }>()
 </script>

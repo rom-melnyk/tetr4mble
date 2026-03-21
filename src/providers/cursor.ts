@@ -1,6 +1,6 @@
 ﻿import { reactive } from "vue"
-import { Field } from "./field"
-import { DifficultyLevel } from "./difficulty"
+import { type Field } from "./field"
+import { type DifficultyLevel } from "./difficulty"
 import { pickRandom, rnd } from "../utils"
 
 export class Cursor {
@@ -56,19 +56,19 @@ export class Cursor {
    * DC        CB
    */
   public rotate() {
-    const a = this.field.getCellAt(this.position.x, this.position.y)
-    const b = this.field.getCellAt(this.position.x + 1, this.position.y)
-    const c = this.field.getCellAt(this.position.x + 1, this.position.y + 1)
-    const d = this.field.getCellAt(this.position.x, this.position.y + 1)
+    const tl = this.field.getCellAt(this.position.x, this.position.y)!
+    const tr = this.field.getCellAt(this.position.x + 1, this.position.y)!
+    const br = this.field.getCellAt(this.position.x + 1, this.position.y + 1)!
+    const bl = this.field.getCellAt(this.position.x, this.position.y + 1)!
 
-    a.x++
-    this.field.settleCell(a)
-    b.y++
-    this.field.settleCell(b)
-    c.x--
-    this.field.settleCell(c)
-    d.y--
-    this.field.settleCell(d)
+    tl.x++
+    this.field.settleCell(tl)
+    tr.y++
+    this.field.settleCell(tr)
+    br.x--
+    this.field.settleCell(br)
+    bl.y--
+    this.field.settleCell(bl)
   }
 
   private isValidPosition(x: number, y: number) {

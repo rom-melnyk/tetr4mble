@@ -5,7 +5,7 @@ import { router } from "./router"
 import levelsJSON from "./assets/levels/levels.json"
 import { loadLevels } from "./providers/level"
 
-import "./assets/main.css"
+import "./styles/main.css"
 
 export const T4 = {
   init() {

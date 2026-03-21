@@ -1,7 +1,12 @@
 ﻿<script setup lang="ts">
-import * as utils from "../../../utils";
+import * as utils from "../../../utils"
 
-defineProps<{ x: number; y: number; width: number; height: number }>()
+defineProps<{
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}>()
 const round4 = utils.round4
 </script>
 

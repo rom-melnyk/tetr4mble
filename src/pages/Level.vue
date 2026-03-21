@@ -1,17 +1,17 @@
 ﻿<script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref, UnwrapRef } from "vue";
+import { onMounted, onUnmounted, watch, ref, UnwrapRef } from "vue"
 import { useRoute } from "vue-router"
-import PlayField from "../components/playfield/PlayField.vue";
-import MiniField from "../components/playfield/MiniField.vue";
-import StatsFooter from "../components/header-footer/StatsFooter.vue"
-import FinishedLevel from "../components/FinishedLevel.vue";
-import { useLevels, Level } from "../providers/level";
-import { Field } from "../providers/field";
-import { Cell } from "../providers/cell";
-import { Cursor, shuffleFiled } from "../providers/cursor";
-import { DifficultyLevel } from "../providers/difficulty";
-import { LevelStats } from "../providers/stats";
-import { debounce } from "../utils";
+import PlayField from "../components/playfield/PlayField.vue"
+import MiniField from "../components/playfield/MiniField.vue"
+import StatsFooter from "../components/shared/StatsFooter.vue"
+import FinishedLevel from "../components/FinishedLevel.vue"
+import { useLevels, Level } from "../providers/level"
+import { Field } from "../providers/field"
+import { Cell } from "../providers/cell"
+import { Cursor, shuffleFiled } from "../providers/cursor"
+import { type DifficultyLevel } from "../providers/difficulty"
+import { LevelStats } from "../providers/stats"
+import { debounce } from "../utils"
 
 const route = useRoute()
 const levels = useLevels()
@@ -101,27 +101,27 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Teleport to="#tetr4mble > header">
-    <MiniField :field="field" class="mx-auto" />
+  <Teleport to="#tetr4mble > #minifield">
+    <MiniField :field="field" />
   </Teleport>
 
-  <div class="h-full flex flex-col">
+  <div class="h-full p-8 lg:p-16 flex flex-col">
     <PlayField
       :field="field"
       :cursor="isFinished ? null : cursor"
       class="flex-1"
       @cell-click="onCellClick"
-      @cursor-click="doRotate" />
+      @cursor-click="doRotate"
+    />
 
-    <footer class="mt-4 lg:mt-8 h-16 text-center">
-      <FinishedLevel
-        v-if="isFinished"
-        :stats="stats"
-        :difficulty="difficultyLevel"
-        :name="level.description"
-        :isBestTime="isBestTime"
-        :isBestMoves="isBestMoves" />
-    </footer>
+    <FinishedLevel
+      v-if="isFinished || true"
+      :stats="stats"
+      :difficulty="difficultyLevel"
+      :name="level.description"
+      :isBestTime="isBestTime"
+      :isBestMoves="isBestMoves"
+    />
   </div>
 
   <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />

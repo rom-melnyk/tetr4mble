@@ -34,7 +34,7 @@ const navigate = (path: string) => {
                 border-l border-l-ink dark:border-l-paper
                 bg-paper dark:bg-ink
                 transition-all"
-         :class="[ isHidden ? '-right-[8em]' : 'right-0' ]"
+         :class="[ isHidden ? 'right-[-101%]' : 'right-0' ]"
   >
     <AppButton icon="icon-right-open" class="block mb-8 lg:mb-16" @click="toggleHidden" />
     <AppButton icon="icon-menu" class="block mb-4 lg:mb-8" @click="navigate('/select-level')" />

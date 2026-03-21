@@ -6,30 +6,41 @@ defineProps<{
 </script>
 
 <template>
-  <button type="button" class="border-0 outline-0 text-accent cursor-pointer">
+  <button type="button">
     <i v-if="icon" :class="icon" />
     <span v-if="title">{{ title }}</span>
   </button>
 </template>
 
 <style scoped>
-@reference "../../assets/main.css";
+@reference "../../styles/main.css";
 
 button {
+  @apply border-0 outline-0 text-accent cursor-pointer;
+  @apply h-12 min-w-12 flex flex-row justify-center items-center;
+
   &[disabled] {
     @apply cursor-not-allowed text-ink-light dark:text-paper-dark;
   }
 
   & > * {
-    @apply inline-block align-middle py-4 leading-[1] not-italic text-center;
+    @apply leading-none not-italic;
   }
 
   & > i {
-    @apply w-[3em] font-bold;
+    @apply /* text-[1.25em] */ font-bold;
+
+    &:not(:last-child) {
+      @apply ml-4 mr-2;
+    }
   }
 
   & > span {
-    @apply px-8;
+    @apply mr-4;
+
+    &:is(:first-child) {
+      @apply ml-4;
+    }
   }
 }
 </style>

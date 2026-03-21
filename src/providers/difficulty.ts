@@ -1,6 +1,7 @@
 ﻿import { ref, watch } from "vue"
 
 export type DifficultyLevel = 1 | 2 | 3 | 4
+export const maxDifficulty = 4
 
 class Difficulty {
   private static readonly lsKey = "T4/difficulty"

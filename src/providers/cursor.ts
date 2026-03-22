@@ -1,7 +1,5 @@
 ﻿import { reactive } from "vue"
 import { type Field } from "./field"
-import { type DifficultyLevel } from "./difficulty"
-import { pickRandom, rnd } from "../utils"
 
 export class Cursor {
   public readonly position = reactive({ x: 0, y: 0 })
@@ -56,19 +54,19 @@ export class Cursor {
    * DC        CB
    */
   public rotate() {
-    const tl = this.field.getCellAt(this.position.x, this.position.y)!
-    const tr = this.field.getCellAt(this.position.x + 1, this.position.y)!
-    const br = this.field.getCellAt(this.position.x + 1, this.position.y + 1)!
-    const bl = this.field.getCellAt(this.position.x, this.position.y + 1)!
+    const a = this.field.getCellAt(this.position.x, this.position.y)!
+    const b = this.field.getCellAt(this.position.x + 1, this.position.y)!
+    const c = this.field.getCellAt(this.position.x + 1, this.position.y + 1)!
+    const d = this.field.getCellAt(this.position.x, this.position.y + 1)!
 
-    tl.x++
-    this.field.settleCell(tl)
-    tr.y++
-    this.field.settleCell(tr)
-    br.x--
-    this.field.settleCell(br)
-    bl.y--
-    this.field.settleCell(bl)
+    a.x++
+    this.field.settleCell(a)
+    b.y++
+    this.field.settleCell(b)
+    c.x--
+    this.field.settleCell(c)
+    d.y--
+    this.field.settleCell(d)
   }
 
   private isValidPosition(x: number, y: number) {
@@ -93,16 +91,5 @@ export class Cursor {
       : this.position.y - y
 
     return dx + dy
-  }
-}
-
-export function shuffleFiled(cursor: Cursor, severity: DifficultyLevel) {
-  const cells = cursor.field.getAllCells()
-  let numOfRotations = cells.length * severity
-  while (--numOfRotations > 0) {
-    const cell = pickRandom(cells)
-    cursor.approach(cell.x, cell.y)
-    let rot = rnd(3) + 1
-    while (rot-- > 0) cursor.rotate()
   }
 }

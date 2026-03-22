@@ -10,8 +10,12 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
 <template>
   <Menu @hide="toggleBlurred" />
 
-  <header class="p-4 lg:p-8 transition-all" :class="{ 'with-blur': isBlurred }">
-    <Logo class="block mx-auto my-2 h-8 text-paper-dark dark:text-ink-light"/>
+  <header class="p-4 lg:p-8 transition-all flex flex-row justify-between items-center"
+          :class="{ 'with-blur': isBlurred }"
+  >
+    <div id="back-button" class="w-12"><!-- Teleport target --></div>
+    <Logo class="block mx-auto my-2 h-8 text-ink dark:text-paper"/>
+    <div class="w-12"><!-- Placeholder; balances the appearance --></div>
   </header>
 
   <div id="minifield"
@@ -21,7 +25,7 @@ const toggleBlurred = (isHidden: boolean) => (isBlurred.value = !isHidden)
     <!-- Teleport target (check `Level.vue`) -->
   </div>
 
-  <main class="flex-1 overflow-hidden border-b border-b-ink dark:border-b-paper transition-all"
+  <main class="flex-1 overflow-hidden p-4 lg:p-8 border-b border-b-ink dark:border-b-paper transition-all"
         :class="{ 'with-blur': isBlurred }"
   >
     <div class="h-full overflow-hidden">

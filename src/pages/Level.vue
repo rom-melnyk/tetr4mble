@@ -1,17 +1,17 @@
 ﻿<script lang="ts" setup>
 import { onMounted, onUnmounted, watch, ref, UnwrapRef } from "vue"
 import { useRoute } from "vue-router"
+import { debounce } from "@rom98m/utils"
 import PlayField from "../components/playfield/PlayField.vue"
 import MiniField from "../components/playfield/MiniField.vue"
 import StatsFooter from "../components/shared/StatsFooter.vue"
 import FinishedLevel from "../components/FinishedLevel.vue"
-import { useLevels, Level } from "../providers/level"
-import { Field } from "../providers/field"
-import { Cell } from "../providers/cell"
-import { Cursor, shuffleFiled } from "../providers/cursor"
+import { useLevels, type Level } from "../providers/level"
+import { type Field } from "../providers/field"
+import { type Cell } from "../providers/cell"
+import { type Cursor } from "../providers/cursor"
 import { type DifficultyLevel } from "../providers/difficulty"
 import { LevelStats } from "../providers/stats"
-import { debounce } from "../utils"
 
 const route = useRoute()
 const levels = useLevels()
@@ -20,6 +20,7 @@ let stats: UnwrapRef<LevelStats>
 const field = ref<Field>(null as unknown as Field)
 const cursor = ref<Cursor>(null as unknown as Cursor)
 const difficultyLevel = ref<DifficultyLevel>(1)
+const renderKey = ref<number>(1)
 
 let originalCells: Cell[]
 const isFinished = ref(false)
@@ -27,35 +28,34 @@ const isBestTime = ref(false)
 const isBestMoves = ref(false)
 let timerId: NodeJS.Timeout
 
-watch(() => route.params, () => {
-  const { id, difficulty } = route.params as unknown as { id: number; difficulty: DifficultyLevel }
-  difficultyLevel.value = Number(difficulty) as DifficultyLevel
-  if (!levels[id] || isNaN(difficultyLevel.value)) {
-      throw new Error(`Failed loading level "${id}" with difficulty ${difficulty}`)
-  }
-  level.value = levels[id]
-  stats = level.value.stats
-  field.value = levels[id].field
-  cursor.value = levels[id].cursor
+const loadLevel = (newLevel: Level, newDifficulty: DifficultyLevel) => {
+  renderKey.value++
 
+  level.value = newLevel
+  stats = level.value.stats
+  field.value = newLevel.field
+  cursor.value = newLevel.cursor
+
+  difficultyLevel.value = newDifficulty
+  isFinished.value = false
+
+  stats.reset()
   stats.setDifficulty(difficultyLevel.value)
+
   originalCells = field.value.getOriginalCells()
 
   setTimeout(() => {
-    shuffleFiled(cursor.value as Cursor, difficulty)
+    level.value.field.shuffle(difficultyLevel.value)
     checkProgress()
   }, 1)
   timerId = setInterval(() => stats.bumpTime(), 1000)
-}, { immediate: true })
+}
 
 const checkProgress = debounce(() => {
-  const numMatchingCells = originalCells.filter(
-    ({ x, y, type }) => field.value!.getCellAt(x, y)!.type === type
-  ).length
-  if (numMatchingCells < originalCells.length) {
-    stats.setProgress(Math.floor(numMatchingCells / originalCells.length * 100))
-    return
-  }
+  const isInProgress = originalCells.some(
+    ({ x, y, type }) => field.value!.getCellAt(x, y)!.type !== type
+  )
+  if (isInProgress) return
 
   isFinished.value = true
   if (stats.isBestTime()) isBestTime.value = true
@@ -98,15 +98,26 @@ onUnmounted(() => {
   window.removeEventListener("keydown", kbdListener)
   clearInterval(timerId)
 })
+
+watch(() => route.fullPath, () => {
+  const { id, difficulty } = route.params as unknown as { id: number; difficulty: DifficultyLevel }
+  const parsedDifficulty = Number(difficulty) as DifficultyLevel
+  if (!levels[id] || isNaN(parsedDifficulty)) {
+    throw new Error(`Failed loading level "${id}" with difficulty "${difficulty}"`)
+  }
+
+  loadLevel(levels[id], parsedDifficulty)
+}, { immediate: true })
 </script>
 
 <template>
-  <Teleport to="#tetr4mble > #minifield">
+  <Teleport v-if="!isFinished" to="#tetr4mble > #minifield">
     <MiniField :field="field" />
   </Teleport>
 
-  <div class="h-full p-8 lg:p-16 flex flex-col">
+  <div class="h-full flex flex-col">
     <PlayField
+      :key="`pf-${renderKey}`"
       :field="field"
       :cursor="isFinished ? null : cursor"
       class="flex-1"
@@ -115,12 +126,14 @@ onUnmounted(() => {
     />
 
     <FinishedLevel
-      v-if="isFinished || true"
+      v-if="isFinished"
       :stats="stats"
       :difficulty="difficultyLevel"
       :name="level.description"
       :isBestTime="isBestTime"
       :isBestMoves="isBestMoves"
+      class="mt-4 lg:mt-8"
+      @restart="loadLevel(level, difficultyLevel)"
     />
   </div>
 

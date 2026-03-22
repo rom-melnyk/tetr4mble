@@ -13,8 +13,6 @@ export class LevelStats {
   /** Seconds played current level */
   public currentTime = 0
   public currentMoves = 0
-  /** % (0-100) */
-  public progress = 0
 
   private difficulty: DifficultyLevel = 1
 
@@ -30,14 +28,13 @@ export class LevelStats {
   private load() {
     try {
       const parsed = JSON.parse(
-        localStorage.getItem(LevelStats.lsKey(this.levelId, this.difficulty))
+        localStorage.getItem(LevelStats.lsKey(this.levelId, this.difficulty)) ?? ""
       ) as StoredStats
 
       this.bestTime = parsed.bestTime || 0
       this.bestMoves = parsed.bestMoves || 0
       this.currentTime = 0
       this.currentMoves = 0
-      this.progress = 0
     } catch (e) {
       // Fall back to default values
     }
@@ -54,6 +51,11 @@ export class LevelStats {
     )
   }
 
+  public reset() {
+    this.currentTime = 0
+    this.currentMoves = 0
+  }
+
   public bumpMove() {
     this.currentMoves++
     this.store()
@@ -64,15 +66,9 @@ export class LevelStats {
     this.store()
   }
 
-  public setProgress(progress: number) {
-    this.progress = progress
-    this.store()
-  }
-
   public finish() {
     if (this.isBestTime()) this.bestTime = this.currentTime
     if (this.isBestMoves()) this.bestMoves = this.currentMoves
-    this.progress = 100
     this.store()
   }
 

@@ -1,0 +1,47 @@
+@import "tailwindcss";
+@import "./tw-theme.css";
+
+body {
+  @apply h-screen flex justify-center items-center;
+  @apply bg-paper text-ink dark:bg-ink dark:text-paper;
+}
+
+#tetr4mble {
+  @apply overflow-hidden flex flex-col relative select-none;
+
+  /* Small screens */
+  @apply w-full h-screen;
+
+  /* Large(r) screens */
+  @media (min-width: 1024px) {
+    @apply w-[1024px];
+    @apply border-l border-r border-ink dark:border-paper;
+  }
+  @media (min-height: 1024px) {
+    @apply h-[1024px];
+    @apply border-t border-b border-ink dark:border-paper;
+  }
+  @media (min-width: 1024px) and (min-height: 1024px) {
+    @apply rounded;
+  }
+}
+
+h1 {
+  @apply text-2xl;
+}
+
+/* p {} */
+
+article {
+  h1 {
+    @apply mb-4 lg:mb-8;
+  }
+
+  p {
+    @apply mb-4;
+  }
+}
+
+a {
+  @apply text-accent hover:text-accent-dark;
+}

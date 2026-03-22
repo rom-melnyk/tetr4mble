@@ -17,7 +17,7 @@ defineProps<{
 
 button {
   @apply border-0 outline-0 text-accent cursor-pointer;
-  @apply h-12 min-w-12 flex flex-row justify-center items-center;
+  @apply h-12 min-w-12 inline-flex flex-row justify-center items-center;
 
   &[disabled] {
     @apply cursor-not-allowed text-ink-light dark:text-paper-dark;

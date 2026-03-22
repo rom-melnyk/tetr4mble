@@ -1,5 +1,4 @@
 ﻿<script setup lang="ts">
-import * as utils from "../../../utils"
 
 defineProps<{
   x: number;
@@ -7,7 +6,7 @@ defineProps<{
   width: number;
   height: number;
 }>()
-const round4 = utils.round4
+const round4 = (n: number) => n.toFixed(4)
 </script>
 
 <template>

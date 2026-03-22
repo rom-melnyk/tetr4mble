@@ -6,7 +6,7 @@ import PlayCellIcon from "./playcell/PlayCellIcon.vue"
 import PlayFiledBorders from "./PlayFiledBorders.vue"
 import PlayFiledCursor from "./PlayFiledCursor.vue"
 
-const props = defineProps<{ field: Field; cursor: Cursor; }>()
+const props = defineProps<{ field: Field; cursor: Cursor | null; }>()
 const emit = defineEmits([
   "cellClick", /** @param {Cell} cell */
   "cursorClick",
@@ -20,7 +20,7 @@ const cells = props.field.getAllCells()
 
 <template>
   <!-- Container ensures dynamis sizing with respect to PF aspect ratio -->
-  <div style="container-type: size;">
+  <div class="transition-all" style="container-type: size;">
     <div class="mx-auto relative"
          :style="{
            'aspect-ratio': `${field.width}/${field.height}`,

@@ -1,5 +1,7 @@
 ﻿import { reactive } from "vue"
+import { pickRandom } from "@rom98m/utils"
 import { Cell, BorderCell } from "./cell"
+import { maxDifficulty, type DifficultyLevel } from "./difficulty"
 
 export class Field {
   public static fromJSON(json: string[]) {
@@ -93,5 +95,22 @@ export class Field {
    */
   public settleCell(cell: Cell) {
     return this.cells.set(`${cell.x}:${cell.y}`, cell)
+  }
+
+  public shuffle(difficulty: DifficultyLevel) {
+    const cells = this.getAllCells().filter(c => !c.isDummy)
+    let numShuffles = 0
+    const maxNumShuffles = cells.length / (maxDifficulty - difficulty + 1)
+
+    do {
+      const a = pickRandom(cells)
+      let b: Cell
+      do { b = pickRandom(cells) } while (b.type === a.type)
+
+      ;[a.x, a.y, b.x, b.y] = [b.x, b.y, a.x, a.y]
+      this.settleCell(a)
+      this.settleCell(b)
+      numShuffles++
+    } while (numShuffles < maxNumShuffles)
   }
 }

@@ -1,9 +1,13 @@
 ﻿<script lang="ts" setup>
 import { computed } from "vue"
+import AppButton from "../components/shared/AppButton.vue"
 import BasicFooter from "../components/shared/BasicFooter.vue"
 import MiniField from "../components/playfield/MiniField.vue"
 import { useLevels } from "../providers/level"
 import { useDifficulty, type DifficultyLevel } from "../providers/difficulty"
+import { useRouter } from "vue-router"
+
+const router = useRouter()
 
 const levels = useLevels()
 const difficulty = useDifficulty()
@@ -18,35 +22,39 @@ const dufficultyName = computed(() => _difficultyNames[difficulty.level.value])
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
-    <h1>Select level</h1>
-    <div class="mb-4 lg:mb-8 pb-4 lg:pb-8 border-b border-b-paper-dark dark:border-b-ink-light flex flex-row">
-      <span class="mr-4 lg:mr-8">Difficulty</span>
-      <span>
-        <input type="range"
-               min="1" max="4" step="1"
-               class="w-[12em] mr-2 align-middle"
-               v-model.number="difficulty.level.value"
-        />
-        <span class="text-sm align-middle text-paper-dark dark:text-ink-light">
-          {{ dufficultyName }}
-        </span>
-      </span>
-    </div>
+  <Teleport to="#tetr4mble > header > #back-button" >
+    <AppButton icon="icon-left-open" @click="router.back()" />
+  </Teleport>
 
-    <div class="flex-1 overflow-y-auto">
+  <div class="h-full flex flex-col">
+    <h1 class="mb-4 lg:mb-4 text-center">Select level</h1>
+
+    <div class="flex-1 overflow-y-auto flex flex-row justify-center">
       <table class="border-separate border-spacing-y-4 lg:border-spacing-y-8">
         <tr v-for="(level, lid) in levels">
           <td>
-            <MiniField :field="level.field" />
+            <MiniField :field="level.field" class="mx-auto" />
           </td>
           <td>
             <a :href="`/level/${lid}/${difficulty.level.value}`"
-               class="ml-4 lg:ml-4"
+                class="ml-4 lg:ml-4"
             >{{ level.description }}</a>
           </td>
         </tr>
       </table>
+    </div>
+
+    <div class="mt-4 lg:mt-8 pt-4 lg:pt-8 border-t border-t-paper-dark dark:border-t-ink-light flex flex-row justify-center items-center">
+      <div class="mr-4">Difficulty</div>
+      <input
+        type="range"
+        min="1" max="4" step="1"
+        class="block w-[12em] mr-2"
+        v-model.number="difficulty.level.value"
+      />
+      <span class="w-[10em] text-sm text-paper-dark dark:text-ink-light">
+        {{ dufficultyName }}
+      </span>
     </div>
   </div>
 

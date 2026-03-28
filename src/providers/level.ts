@@ -1,10 +1,11 @@
 ﻿import { Field } from "./field"
 import { Cursor } from "./cursor"
 import { LevelStats } from "./stats"
+import { DifficultyLevel } from "./difficulty";
+import { pickTexture } from "./texture";
 
 export interface LevelJSON {
   description: string;
-  shuffle?: string[];
   level: string[];
 }
 
@@ -18,6 +19,13 @@ export class Level {
     this.field = Field.fromJSON(json.level)
     this.cursor = new Cursor(this.field)
     this.stats = new LevelStats(id)
+  }
+
+  public asNew(difficuly: DifficultyLevel) {
+    const texture = pickTexture(difficuly)
+    this.field.applyTexture(texture)
+    this.stats.reset()
+    this.stats.setDifficulty(difficuly)
   }
 }
 

@@ -4,7 +4,7 @@
   constructor(
     public x: number,
     public y: number,
-    public readonly type: number,
+    public type: number,
   ) {
     this.isDummy = type === 0
   }

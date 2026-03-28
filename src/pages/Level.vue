@@ -31,16 +31,15 @@ let timerId: NodeJS.Timeout
 const loadLevel = (newLevel: Level, newDifficulty: DifficultyLevel) => {
   renderKey.value++
 
+  difficultyLevel.value = newDifficulty
+  newLevel.asNew(newDifficulty)
+
   level.value = newLevel
   stats = level.value.stats
   field.value = newLevel.field
   cursor.value = newLevel.cursor
 
-  difficultyLevel.value = newDifficulty
   isFinished.value = false
-
-  stats.reset()
-  stats.setDifficulty(difficultyLevel.value)
 
   originalCells = field.value.getOriginalCells()
 

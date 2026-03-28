@@ -2,12 +2,13 @@
 import { pickRandom } from "@rom98m/utils"
 import { Cell, BorderCell } from "./cell"
 import { maxDifficulty, type DifficultyLevel } from "./difficulty"
+import { generateCellTypeMap, Texture } from "./texture"
 
 export class Field {
   public static fromJSON(json: string[]) {
     let cells = json
       .map(row => Array.prototype
-        .map.call(row, c => new Cell(0, 0, Number(c) || 0)) as Cell[]
+        .map.call(row, c => new Cell(0, 0, c === " " ? 0 : (Number(c) || 1))) as Cell[]
       )
 
     // 1. Normalize the length of the rows
@@ -20,11 +21,11 @@ export class Field {
     //    2a. Trim empty rows
     cells = cells.filter(row => row.some(cell => !cell.isDummy))
     //    2a. Trim empty columns
-    const valuableColumns = new Set(
+    const columnsWithNonDummyCells = new Set(
       cells[0]
-        .map((c, y) => cells.some(row => !row[y].isDummy) ? y : -1)
+        .map((_, x) => cells.some(row => !row[x].isDummy) ? x : -1)
     )
-    cells = cells.map(row => row.filter((_, x) => valuableColumns.has(x)))
+    cells = cells.map(row => row.filter((_, x) => columnsWithNonDummyCells.has(x)))
 
     // 3. Assign proper coords
     cells.forEach(
@@ -59,6 +60,17 @@ export class Field {
         this.originalCells.set(`${cell.x}:${cell.y}`, cell.clone())
         this.settleCell(reactive(cell) as Cell)
       })
+  }
+
+  public applyTexture(texture: Texture) {
+    const textureMap = generateCellTypeMap()
+    this.originalCells.forEach(cell => {
+      cell.type = textureMap[texture.getLetterAt(cell.x, cell.y)]
+    })
+    this.cells.forEach(cell => {
+      if (cell.isDummy) return
+      cell.type = textureMap[texture.getLetterAt(cell.x, cell.y)]
+    })
   }
 
   public getAllCells() {
@@ -107,9 +119,7 @@ export class Field {
       let b: Cell
       do { b = pickRandom(cells) } while (b.type === a.type)
 
-      ;[a.x, a.y, b.x, b.y] = [b.x, b.y, a.x, a.y]
-      this.settleCell(a)
-      this.settleCell(b)
+      ;[a.type, b.type] = [b.type, a.type]
       numShuffles++
     } while (numShuffles < maxNumShuffles)
   }

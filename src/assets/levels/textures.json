@@ -1,0 +1,330 @@
+[
+  { "__description": "Difficulty 1 - simple, few elements, few repetitions" },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AA",
+      "AA"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AB",
+      "AB"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AA",
+      "BB"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AB",
+      "BA"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AAA",
+      "BBB"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "ABC"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AA",
+      "BB",
+      "AA"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "AB",
+      "AB",
+      "AB"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "ABB",
+      "ABB"
+    ]
+  },
+  {
+    "difficulty": 1,
+    "texture": [
+      "A",
+      "B",
+      "A"
+    ]
+  },
+
+  { "__description": "Difficulty 2 - moderate elements or repetitions" },
+  {
+    "difficulty": 2,
+    "texture": [
+      "AABB",
+      "BBAA"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "ABCD",
+      "ABCD"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "AABB",
+      "CCDD"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "ABC",
+      "BCA",
+      "CAB"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "AABC",
+      "BCAA"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "ABBA",
+      "BAAB"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "AABB",
+      "BBCC",
+      "CCAA"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "ABCD",
+      "DCBA"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "ABBC",
+      "ABBC",
+      "ABBC"
+    ]
+  },
+  {
+    "difficulty": 2,
+    "texture": [
+      "AABBC",
+      "AABBC"
+    ]
+  },
+
+  { "__description": "Difficulty 3 - many elements and/or repetitions" },
+  {
+    "difficulty": 3,
+    "texture": [
+      "AABBCC",
+      "BBCCAA",
+      "CCAABB"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "ABCDE",
+      "BCDEA",
+      "CDEAB"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "AABCDE",
+      "BBAECF"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "AAABBB",
+      "CCCDDD",
+      "EEEFFF"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "ABCABC",
+      "BCABCA",
+      "CABCAB"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "AABBCC",
+      "CCBBAA",
+      "AABBCC"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "ABCDEF",
+      "FEDCBA"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "ABCBCA",
+      "BCACAB",
+      "CABCBA"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "AABCDE",
+      "CCBADE",
+      "EEBCDA"
+    ]
+  },
+  {
+    "difficulty": 3,
+    "texture": [
+      "ABCABC",
+      "DEFDEF",
+      "ABCABC"
+    ]
+  },
+
+  { "__description": "Difficulty 4 - maximum complexity, 5-6 elements, heavy repetitions, larger grids" },
+  {
+    "difficulty": 4,
+    "texture": [
+      "AABBCCDD",
+      "BBCCDDAA",
+      "CCDDAABB"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "ABCDEF",
+      "BCDEFA",
+      "CDEFAB",
+      "DEFABC",
+      "EFABCD",
+      "FABCDE"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "AAABBBCCC",
+      "DDDEEEFFF",
+      "AAADDDAAA"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "ABCDEF",
+      "FEDCBA",
+      "ABCDEF",
+      "FEDCBA",
+      "ABCDEF",
+      "FEDCBA"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "AABBCCDD",
+      "CCDDAABB",
+      "BBAACCDD",
+      "DDAABBCC"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "ABCBCA",
+      "DEFEDE",
+      "ABCBCA",
+      "FEDEDE",
+      "ABCBCA",
+      "DEFEDE"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "AABCDEF",
+      "BBCADFE",
+      "CCBADFF",
+      "DDABCFE"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "ABCDEF",
+      "BAFCED",
+      "CBFAED",
+      "DCBAFE",
+      "EDCBAF",
+      "FEDCBA"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "AAABBBCCC",
+      "BBBAAAACC",
+      "CCCBBBDDD",
+      "DDDCCCAAA"
+    ]
+  },
+  {
+    "difficulty": 4,
+    "texture": [
+      "ABCABD",
+      "DEFDEF",
+      "BCABCA",
+      "EFABCD",
+      "CDECDE",
+      "FABFAB"
+    ]
+  }
+]

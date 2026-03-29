@@ -27,7 +27,7 @@ const dufficultyName = computed(() => _difficultyNames[difficulty.level.value])
   </Teleport>
 
   <div class="h-full flex flex-col">
-    <h1 class="mb-4 lg:mb-4 text-center">Select level</h1>
+    <h1 class="mb-4 lg:mb-4">Select level</h1>
 
     <div class="flex-1 overflow-y-auto flex flex-row justify-center">
       <table class="border-separate border-spacing-y-4 lg:border-spacing-y-8">

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <!-- ring: outer r=480, inner r=400 -->
+  <path fill="currentColor" fill-rule="evenodd"
+    d="M20 500A480 480 0 1 0 980 500A480 480 0 1 0 20 500Z
+       M125 500A375 375 0 1 0 875 500A375 375 0 1 0 125 500Z"/>
+  <!-- dot -->
+  <path fill="currentColor"
+    d="M570 220A20 20 0 0 1 550 200H450A20 20 0 0 1 430 220V310A20 20 0 0 1 450 330H550A20 20 0 0 1 570 310V220Z"/>
+  <!-- stem -->
+  <path fill="currentColor"
+    d="M555 420A20 20 0 0 1 535 400H465A20 20 0 0 1 445 420V770A20 20 0 0 1 465 790H535A20 20 0 0 1 555 770V420Z"/>
+</svg>

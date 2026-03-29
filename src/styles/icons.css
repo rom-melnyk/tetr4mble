@@ -1,0 +1,28 @@
+[class^="icon-"],
+[class*=" icon-"] {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: no-repeat center / contain;
+  mask: no-repeat center / contain;
+}
+
+.icon-right-open    { mask-image:         url('@/assets/icons/icon-right-open.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-right-open.svg'); }
+.icon-left-open     { mask-image:         url('@/assets/icons/icon-left-open.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-left-open.svg'); }
+.icon-cw            { mask-image:         url('@/assets/icons/icon-cw.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-cw.svg'); }
+.icon-list          { mask-image:         url('@/assets/icons/icon-list.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-list.svg'); }
+.icon-clock         { mask-image:         url('@/assets/icons/icon-clock.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-clock.svg'); }
+.icon-menu          { mask-image:         url('@/assets/icons/icon-menu.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-menu.svg'); }
+.icon-help          { mask-image:         url('@/assets/icons/icon-help.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-help.svg'); }
+.icon-ellipsis-vert { mask-image:         url('@/assets/icons/icon-ellipsis-vert.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-ellipsis-vert.svg'); }
+.icon-info          { mask-image:         url('@/assets/icons/icon-info.svg');
+                      -webkit-mask-image: url('@/assets/icons/icon-info.svg'); }

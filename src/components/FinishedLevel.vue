@@ -54,24 +54,10 @@ const emit = defineEmits(["restart"])
       <span class="text-3xl">🎉</span>
     </div>
     <div class="text-center ">
-      <AppButton icon="icon-left-open"
-                class="finished-button"
-                :disabled="!hasAdjacentLevel(-1)"
-                @click="changeLevel(-1)"
-      />
-      <AppButton icon="icon-cw"
-                 class="finished-button"
-                 @click="emit('restart')"
-      />
-      <AppButton icon="icon-menu"
-                 class="finished-button"
-                 @click="router.push('/select-level')"
-      />
-      <AppButton icon="icon-right-open"
-                  class="finished-button"
-                  :disabled="!hasAdjacentLevel(1)"
-                  @click="changeLevel(1)"
-      />
+      <AppButton icon="icon-left-open" class="finished-button" :disabled="!hasAdjacentLevel(-1)" @click="changeLevel(-1)" />
+      <AppButton icon="icon-cw" class="finished-button" @click="emit('restart')" />
+      <AppButton icon="icon-menu" class="finished-button" @click="router.push('/select-level')" />
+      <AppButton icon="icon-right-open" class="finished-button" :disabled="!hasAdjacentLevel(1)" @click="changeLevel(1)" />
     </div>
   </div>
 </template>

@@ -39,7 +39,7 @@ const navigate = (path: string) => {
     <AppButton icon="icon-right-open" class="menu-button" @click="toggleHidden" />
     <AppButton icon="icon-menu" class="menu-button" @click="navigate('/select-level')" />
     <AppButton icon="icon-help" class="menu-button" @click="navigate('/how-to')" />
-    <AppButton icon="4" class="menu-button" @click="navigate('/about')" />
+    <AppButton icon="icon-info" class="menu-button" @click="navigate('/about')" />
   </aside>
 </template>
 

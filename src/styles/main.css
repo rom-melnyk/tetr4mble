@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./tw-theme.css";
+@import "./icons.css";
 
 body {
   @apply h-screen flex justify-center items-center;
@@ -27,12 +28,14 @@ body {
 }
 
 h1 {
-  @apply text-2xl;
+  @apply text-2xl text-center;
 }
 
 /* p {} */
 
 article {
+  @apply md:w-lg mx-auto h-full overflow-y-auto;
+
   h1 {
     @apply mb-4 lg:mb-8;
   }

@@ -11,9 +11,9 @@ const router = useRouter()
     <AppButton icon="icon-left-open" @click="router.back()" />
   </Teleport>
 
-  <article class="md:w-xl mx-auto h-full overflow-y-auto">
+  <article>
     <h1>About</h1>
-    <img src="../assets/mitsu-trium-aria.png" alt="Mitsubushi Trium Aria" class="float-left mr-4 mb-4">
+    <img src="../assets/mitsu-trium-aria.png" alt="Mitsubushi Trium Aria" class="float-left mr-4 lg:mr-8 mb-4 lg:mb-8">
     <p>
       A long time ago, in a galaxy of pixelated screens and monophonic ringtones,
       a humble Mitsubishi Trium carried a secret:
@@ -28,10 +28,13 @@ const router = useRouter()
       and four difficulties to humble even the bravest.
       <br/>The rules remain unchanged: restore the figure.
       <br/>Leave no chaos. The galaxy is patient.
+      <br/>Are you?
     </p>
-      <p>
-        <a href="/select-level">Are you?</a>
-      </p>
+
+    <div class="mt-4 text-center">
+      <AppButton icon="icon-help" class="mr-4 lg:mr-8" @click="router.push('/how-to')" />
+      <AppButton icon="icon-menu" class="" @click="router.push('/select-level')" />
+    </div>
   </article>
 
   <BasicFooter />

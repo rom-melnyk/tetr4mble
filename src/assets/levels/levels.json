@@ -1,15 +1,15 @@
 [
   {
-    "description": "Neon Genesis",
-    "level": [
+    "name": "Neon Genesis",
+    "map": [
       "###",
       "###",
       "###"
     ]
   },
   {
-    "description": "Pulp Fiction",
-    "level": [
+    "name": "Pulp Fiction",
+    "map": [
       "####",
       "####",
       " ## ",
@@ -17,8 +17,8 @@
     ]
   },
   {
-    "description": "Daft Punk",
-    "level": [
+    "name": "Daft Punk",
+    "map": [
       " ## ",
       "####",
       "####",
@@ -26,8 +26,8 @@
     ]
   },
   {
-    "description": "Blade Runner",
-    "level": [
+    "name": "Blade Runner",
+    "map": [
       "  ##",
       "####",
       "####",
@@ -35,8 +35,8 @@
     ]
   },
   {
-    "description": "Twin Peaks",
-    "level": [
+    "name": "Twin Peaks",
+    "map": [
       "   ## ",
       "######",
       "######",
@@ -44,8 +44,8 @@
     ]
   },
   {
-    "description": "Kubrick Dreams",
-    "level": [
+    "name": "Kubrick Dreams",
+    "map": [
       "  ###",
       " ####",
       "#### ",
@@ -53,8 +53,8 @@
     ]
   },
   {
-    "description": "Ziggy Stardust",
-    "level": [
+    "name": "Ziggy Stardust",
+    "map": [
       "  ##  ",
       "  ##  ",
       "######",
@@ -64,8 +64,8 @@
     ]
   },
   {
-    "description": "Mad Max",
-    "level": [
+    "name": "Mad Max",
+    "map": [
       "  ##  ",
       " #### ",
       "######",
@@ -75,8 +75,8 @@
     ]
   },
   {
-    "description": "Sgt. Pepper",
-    "level": [
+    "name": "Sgt. Pepper",
+    "map": [
       " ### ",
       "#####",
       "#####",
@@ -84,8 +84,8 @@
     ]
   },
   {
-    "description": "Lost Highway",
-    "level": [
+    "name": "Lost Highway",
+    "map": [
       " ### ",
       "#####",
       "#####",
@@ -94,8 +94,8 @@
     ]
   },
   {
-    "description": "Kubrick Odyssey",
-    "level": [
+    "name": "Kubrick Odyssey",
+    "map": [
       "  ###  ",
       "###### ",
       "#######",
@@ -104,8 +104,8 @@
     ]
   },
   {
-    "description": "Midnight Cowboy",
-    "level": [
+    "name": "Midnight Cowboy",
+    "map": [
       "##  ##",
       "######",
       "######",
@@ -113,8 +113,8 @@
     ]
   },
   {
-    "description": "Electric Boogaloo",
-    "level": [
+    "name": "Electric Boogaloo",
+    "map": [
       " ##  ## ",
       "########",
       "########",
@@ -122,8 +122,8 @@
     ]
   },
   {
-    "description": "Apocalypse Now",
-    "level": [
+    "name": "Apocalypse Now",
+    "map": [
       "######",
       "######",
       "##  ##",
@@ -132,8 +132,8 @@
     ]
   },
   {
-    "description": "Stranger Things",
-    "level": [
+    "name": "Stranger Things",
+    "map": [
       "####  ",
       "####  ",
       "##  ##",
@@ -142,8 +142,8 @@
     ]
   },
   {
-    "description": "Jurassic Spark",
-    "level": [
+    "name": "Jurassic Spark",
+    "map": [
       " #####   ",
       " #####   ",
       "###  ### ",
@@ -152,8 +152,8 @@
     ]
   },
   {
-    "description": "Purple Rain",
-    "level": [
+    "name": "Purple Rain",
+    "map": [
       "###   ",
       "###   ",
       "###   ",
@@ -163,8 +163,8 @@
     ]
   },
   {
-    "description": "Dark Side",
-    "level": [
+    "name": "Dark Side",
+    "map": [
       "###   ",
       "###   ",
       "####  ",
@@ -176,8 +176,8 @@
     ]
   },
   {
-    "description": "Tarantino Shuffle",
-    "level": [
+    "name": "Tarantino Shuffle",
+    "map": [
       " ###    ",
       " ###    ",
       "#####   ",
@@ -189,8 +189,8 @@
     ]
   },
   {
-    "description": "Silent Hill",
-    "level": [
+    "name": "Silent Hill",
+    "map": [
       " ###### ",
       "########",
       "###  ###",
@@ -199,8 +199,8 @@
     ]
   },
   {
-    "description": "Neuromancer Rising",
-    "level": [
+    "name": "Neuromancer Rising",
+    "map": [
       "###  ###",
       "########",
       "########",
@@ -210,8 +210,8 @@
     ]
   },
   {
-    "description": "Kubrick Maze",
-    "level": [
+    "name": "Kubrick Maze",
+    "map": [
       "##   ##",
       "#######",
       "#######",
@@ -222,8 +222,8 @@
     ]
   },
   {
-    "description": "Clockwork Orange",
-    "level": [
+    "name": "Clockwork Orange",
+    "map": [
       " ## ## ",
       " ## ###",
       " ## ###",
@@ -233,8 +233,8 @@
     ]
   },
   {
-    "description": "Warhol Factory",
-    "level": [
+    "name": "Warhol Factory",
+    "map": [
       "###     ",
       "###     ",
       " ###### ",
@@ -244,8 +244,8 @@
     ]
   },
   {
-    "description": "Moonwalker",
-    "level": [
+    "name": "Moonwalker",
+    "map": [
       "###  ###",
       "###  ###",
       " ###### ",
@@ -255,8 +255,8 @@
     ]
   },
   {
-    "description": "Twin Suns",
-    "level": [
+    "name": "Twin Suns",
+    "map": [
       "###  ###",
       "###  ###",
       " ###### ",
@@ -266,8 +266,8 @@
     ]
   },
   {
-    "description": "Velvet Underground",
-    "level": [
+    "name": "Velvet Underground",
+    "map": [
       " ###### ",
       "########",
       "###  ###",
@@ -278,8 +278,8 @@
     ]
   },
   {
-    "description": "Eternal Sunshine",
-    "level": [
+    "name": "Eternal Sunshine",
+    "map": [
       "########",
       "########",
       "##    ##",
@@ -291,8 +291,8 @@
     ]
   },
   {
-    "description": "Kubrick Stare",
-    "level": [
+    "name": "Kubrick Stare",
+    "map": [
       " ###### ",
       "########",
       "###  ###",
@@ -303,8 +303,8 @@
     ]
   },
   {
-    "description": "Cosmic Trigger",
-    "level": [
+    "name": "Cosmic Trigger",
+    "map": [
       " ##  ## ",
       "########",
       "########",

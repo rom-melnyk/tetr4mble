@@ -1,25 +1,21 @@
 ﻿<script setup lang="ts">
 import PlayCell from "./playcell/PlayCell.vue"
 import PlayCellIcon from "./playcell/PlayCellIcon.vue"
-// import PlayFiledBorders from "./PlayFiledBorders.vue"
-import { type Field } from "../../providers/field"
+import { type Cell } from "../../providers/cell"
 
-const props = defineProps<{ field: Field; }>()
+const props = defineProps<{ width: number; height: number; cells: Cell[]; }>()
 
-const cellWidth = 100 / props.field.width
-const cellHeight = 100 / props.field.height
-// const borderCells = props.field.getBorderCells()
-const cells = props.field.getOriginalCells()
+const cellWidth = 100 / props.width
+const cellHeight = 100 / props.height
 </script>
 
 <template>
   <div class="relative"
        :style="{
-                 'aspect-ratio': `${field.width}/${field.height}`,
-                 height: `${field.height / 2}em`
+                 'aspect-ratio': `${width}/${height}`,
+                 height: `${height / 2}em`
                }"
   >
-    <!-- <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" :is-mini-filed="true" /> -->
 
     <PlayCell v-for="cell in cells"
               :class="`cell-${cell.type}`"
@@ -30,7 +26,7 @@ const cells = props.field.getOriginalCells()
     >
       <PlayCellIcon
         :cell-type="cell.type"
-        :class="`cell-${cell.type} w-[90%] m-[5%]`"
+        :class="`cell-${cell.type} w-[94%] m-[3%]`"
       />
     </PlayCell>
   </div>

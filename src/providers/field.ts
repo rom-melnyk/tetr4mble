@@ -2,91 +2,58 @@
 import { pickRandom } from "@rom98m/utils"
 import { Cell, BorderCell } from "./cell"
 import { maxDifficulty, type DifficultyLevel } from "./difficulty"
-import { generateCellTypeMap, Texture } from "./texture"
+import { generateCellTypeMap, type Texture } from "./texture"
 
 export class Field {
-  public static fromJSON(json: string[]) {
-    let cells = json
-      .map(row => Array.prototype
-        .map.call(row, c => new Cell(0, 0, c === " " ? 0 : (Number(c) || 1))) as Cell[]
-      )
-
-    // 1. Normalize the length of the rows
-    const maxRowLength = Math.max(...cells.map(row => row.length))
-    cells.forEach(row => {
-      while (row.length < maxRowLength) row.push(new Cell(0, 0, 0))
-    })
-
-    // 2. Trim all-0
-    //    2a. Trim empty rows
-    cells = cells.filter(row => row.some(cell => !cell.isDummy))
-    //    2a. Trim empty columns
-    const columnsWithNonDummyCells = new Set(
-      cells[0]
-        .map((_, x) => cells.some(row => !row[x].isDummy) ? x : -1)
-    )
-    cells = cells.map(row => row.filter((_, x) => columnsWithNonDummyCells.has(x)))
-
-    // 3. Assign proper coords
-    cells.forEach(
-      (row, y) => row.forEach((cell, x) => {
-        cell.x = x
-        cell.y = y
-      })
-    )
-
-    return new Field(cells)
-  }
-
-  public readonly width: number
-  public readonly height: number
-
+  public width: number
+  public height: number
   /**
-   * The original cell setup from the JSON file.
-   * `if (cells == originalCells) level_is_finished`
+   * The initial cell order (level_map × texture).
+   * `if (cells == initialOrder) isFinished = true`
    */
-  private readonly originalCells = new Map<string, Cell>()
+  private readonly initialOrder = new Map<string, Cell>()
+  private readonly initialOrderArr: Cell[]
   private readonly cells = new Map<string, Cell>()
 
-  private constructor(
-    cells: Cell[][],
-  ) {
+  constructor(cells: Cell[][], texture: Texture) {
     this.width = cells[0].length
     this.height = cells.length
+
+    const textureMap = generateCellTypeMap()
+
     cells
       .flat()
       .filter(cell => !cell.isDummy)
-      .forEach(cell => {
-        this.originalCells.set(`${cell.x}:${cell.y}`, cell.clone())
+      .forEach(matrixCell => {
+        const cell = matrixCell.clone()
+        cell.type = textureMap[texture.getMaskAt(cell.x, cell.y)]
+        this.initialOrder.set(`${cell.x}:${cell.y}`, cell.clone())
         this.settleCell(reactive(cell) as Cell)
       })
-  }
 
-  public applyTexture(texture: Texture) {
-    const textureMap = generateCellTypeMap()
-    this.originalCells.forEach(cell => {
-      cell.type = textureMap[texture.getLetterAt(cell.x, cell.y)]
-    })
-    this.cells.forEach(cell => {
-      if (cell.isDummy) return
-      cell.type = textureMap[texture.getLetterAt(cell.x, cell.y)]
-    })
+    this.initialOrderArr = this.getInitialOrder()
   }
 
   public getAllCells() {
     return Array.from(this.cells.values())
   }
 
+  public isShuffled() {
+    return this.initialOrderArr.some(
+      ({ x, y, type }) => this.getCellAt(x, y)!.type !== type
+    )
+  }
+
   public getBorderCells() {
     return Array
-      .from(this.originalCells.values())
+      .from(this.initialOrder.values())
       .reduce((borderCells, { x, y, type }) => {
         const cell = new BorderCell(x, y, type)
 
-        if (!this.originalCells.has(`${x}:${y - 1}`)) cell.borders.add("t")
-        if (!this.originalCells.has(`${x + 1}:${y}`)) cell.borders.add("r")
-        if (!this.originalCells.has(`${x}:${y + 1}`)) cell.borders.add("b")
-        if (!this.originalCells.has(`${x - 1}:${y}`)) cell.borders.add("l")
+        if (!this.initialOrder.has(`${x}:${y - 1}`)) cell.borders.add("t")
+        if (!this.initialOrder.has(`${x + 1}:${y}`)) cell.borders.add("r")
+        if (!this.initialOrder.has(`${x}:${y + 1}`)) cell.borders.add("b")
+        if (!this.initialOrder.has(`${x - 1}:${y}`)) cell.borders.add("l")
 
         if (cell.borders.size > 0) borderCells.push(cell)
 
@@ -94,8 +61,8 @@ export class Field {
       }, [] as BorderCell[])
   }
 
-  public getOriginalCells() {
-    return Array.from(this.originalCells.values())
+  public getInitialOrder() {
+    return Array.from(this.initialOrder.values())
   }
 
   public getCellAt(x: number, y: number) {

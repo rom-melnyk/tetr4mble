@@ -1,60 +1,59 @@
 ﻿<script lang="ts" setup>
-import { onMounted, onUnmounted, watch, ref, UnwrapRef } from "vue"
+import { onMounted, onUnmounted, watch, ref } from "vue"
 import { useRoute } from "vue-router"
-import { debounce } from "@rom98m/utils"
+import { debounce, wait } from "@rom98m/utils"
 import PlayField from "../components/playfield/PlayField.vue"
 import MiniField from "../components/playfield/MiniField.vue"
 import StatsFooter from "../components/shared/StatsFooter.vue"
 import FinishedLevel from "../components/FinishedLevel.vue"
 import { useLevels, type Level } from "../providers/level"
-import { type Field } from "../providers/field"
+import { Field } from "../providers/field"
 import { type Cell } from "../providers/cell"
-import { type Cursor } from "../providers/cursor"
-import { type DifficultyLevel } from "../providers/difficulty"
+import { Cursor } from "../providers/cursor"
+import { parseDifficulty, type DifficultyLevel } from "../providers/difficulty"
 import { LevelStats } from "../providers/stats"
+import { pickTexture } from "../providers/texture"
 
 const route = useRoute()
 const levels = useLevels()
-const level = ref<Level>(null as unknown as Level)
-let stats: UnwrapRef<LevelStats>
-const field = ref<Field>(null as unknown as Field)
-const cursor = ref<Cursor>(null as unknown as Cursor)
-const difficultyLevel = ref<DifficultyLevel>(1)
+
 const renderKey = ref<number>(1)
 
-let originalCells: Cell[]
+const levelName = ref("")
+const difficulty = ref<DifficultyLevel>(1)
+let level: Level
+let stats: LevelStats
+let field: Field
+let cursor: Cursor
+
 const isFinished = ref(false)
 const isBestTime = ref(false)
 const isBestMoves = ref(false)
 let timerId: NodeJS.Timeout
 
-const loadLevel = (newLevel: Level, newDifficulty: DifficultyLevel) => {
+const initLevel = (newLevel: Level, newDifficulty: DifficultyLevel) => {
   renderKey.value++
 
-  difficultyLevel.value = newDifficulty
-  newLevel.asNew(newDifficulty)
+  levelName.value = newLevel.name
+  difficulty.value = newDifficulty
 
-  level.value = newLevel
-  stats = level.value.stats
-  field.value = newLevel.field
-  cursor.value = newLevel.cursor
+  level = newLevel
+  stats = new LevelStats(newLevel.id, newDifficulty)
+  const texture = pickTexture(newDifficulty)
+  field = new Field(level.matrix, texture)
+  cursor = new Cursor(field)
 
   isFinished.value = false
 
-  originalCells = field.value.getOriginalCells()
-
-  setTimeout(() => {
-    level.value.field.shuffle(difficultyLevel.value)
+  wait(1).then(() => {
+    field.shuffle(difficulty.value)
     checkProgress()
-  }, 1)
+  })
   timerId = setInterval(() => stats.bumpTime(), 1000)
 }
 
 const checkProgress = debounce(() => {
-  const isInProgress = originalCells.some(
-    ({ x, y, type }) => field.value!.getCellAt(x, y)!.type !== type
-  )
-  if (isInProgress) return
+  if (field.isShuffled()) return
 
   isFinished.value = true
   if (stats.isBestTime()) isBestTime.value = true
@@ -65,27 +64,25 @@ const checkProgress = debounce(() => {
 }, 100)
 
 const doRotate = () => {
-  cursor.value.rotate()
+  cursor.rotate()
   stats.bumpMove()
   checkProgress()
 }
 
 const onCellClick = (cell: Cell) => {
-  // e.preventDefault()
   if (isFinished.value) return
 
-  cursor.value.approach(cell.x, cell.y)
+  cursor.approach(cell.x, cell.y)
 }
 
 const kbdListener = (e: KeyboardEvent) => {
-  // e.preventDefault()
   if (isFinished.value) return
 
   switch (e.key) {
-    case "ArrowUp": return cursor.value.move(0, -1)
-    case "ArrowRight": return cursor.value.move(1, 0)
-    case "ArrowDown": return cursor.value.move(0, 1)
-    case "ArrowLeft": return cursor.value.move(-1, 0)
+    case "ArrowUp": return cursor.move(0, -1)
+    case "ArrowRight": return cursor.move(1, 0)
+    case "ArrowDown": return cursor.move(0, 1)
+    case "ArrowLeft": return cursor.move(-1, 0)
     case " ": return doRotate()
     default:
     // console.info(`Pressed unrecognized key: <${e.key}>`)
@@ -99,19 +96,17 @@ onUnmounted(() => {
 })
 
 watch(() => route.fullPath, () => {
-  const { id, difficulty } = route.params as unknown as { id: number; difficulty: DifficultyLevel }
-  const parsedDifficulty = Number(difficulty) as DifficultyLevel
-  if (!levels[id] || isNaN(parsedDifficulty)) {
-    throw new Error(`Failed loading level "${id}" with difficulty "${difficulty}"`)
-  }
+  const difficulty = parseDifficulty(route.params.difficulty as string)
+  const id = Number(route.params.id as string)
+  if (!levels.has(id)) throw new Error(`Failed loading level "${id}"`)
 
-  loadLevel(levels[id], parsedDifficulty)
+  initLevel(levels.get(id)!, difficulty)
 }, { immediate: true })
 </script>
 
 <template>
   <Teleport v-if="!isFinished" to="#tetr4mble > #minifield">
-    <MiniField :field="field" />
+    <MiniField :key="`mf-${renderKey}`" :width="level.width" :height="level.height" :cells="field.getInitialOrder()" />
   </Teleport>
 
   <div class="h-full flex flex-col">
@@ -119,6 +114,7 @@ watch(() => route.fullPath, () => {
       :key="`pf-${renderKey}`"
       :field="field"
       :cursor="isFinished ? null : cursor"
+      :isFinished="isFinished"
       class="flex-1"
       @cell-click="onCellClick"
       @cursor-click="doRotate"
@@ -126,15 +122,15 @@ watch(() => route.fullPath, () => {
 
     <FinishedLevel
       v-if="isFinished"
-      :stats="stats"
-      :difficulty="difficultyLevel"
-      :name="level.description"
+      :stats="stats.data"
+      :difficulty="difficulty"
+      :name="levelName"
       :isBestTime="isBestTime"
       :isBestMoves="isBestMoves"
       class="mt-4 lg:mt-8"
-      @restart="loadLevel(level, difficultyLevel)"
+      @restart="initLevel(level, difficulty)"
     />
   </div>
 
-  <StatsFooter :difficulty="difficultyLevel" :stats="level.stats" :name="level.description" />
+  <StatsFooter :key="`sf-${renderKey}`" :difficulty="difficulty" :stats="stats.data" :name="levelName" />
 </template>

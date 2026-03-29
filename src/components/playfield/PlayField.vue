@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import { random } from "@rom98m/utils"
 import { type Field } from "../../providers/field"
 import { type Cursor } from "../../providers/cursor"
 import PlayCell from "./playcell/PlayCell.vue"
@@ -6,7 +7,7 @@ import PlayCellIcon from "./playcell/PlayCellIcon.vue"
 import PlayFiledBorders from "./PlayFiledBorders.vue"
 import PlayFiledCursor from "./PlayFiledCursor.vue"
 
-const props = defineProps<{ field: Field; cursor: Cursor | null; }>()
+const props = defineProps<{ field: Field; cursor: Cursor | null; isFinished: boolean; }>()
 const emit = defineEmits([
   "cellClick", /** @param {Cell} cell */
   "cursorClick",
@@ -28,9 +29,11 @@ const cells = props.field.getAllCells()
            width: `min(100cqw, 100cqh * (${field.width}/${field.height}))`,
            // Don't exceed width-constrained height (reversed aspect ratio!)
            height: `min(100cqh, 100cqw * (${field.height}/${field.width}))`,
+           marginTop: `50cqh`,
+           transform: `translateY(-50%)`,
          }"
     >
-      <PlayFiledBorders :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" />
+      <PlayFiledBorders v-if="!isFinished" :cell-width="cellWidth" :cell-height="cellHeight" :cells="borderCells" />
 
       <PlayCell v-for="cell in cells"
                 :class="`cell-${cell.type}`"
@@ -42,7 +45,12 @@ const cells = props.field.getAllCells()
       >
         <PlayCellIcon
           :cell-type="cell.type"
-          :class="`cell-${cell.type} w-[80%] m-[10%]`"
+          :class="{
+            [`cell-${cell.type}`]: true,
+            'cell-finished': isFinished,
+            'cell-playing': !isFinished,
+          }"
+          :style="isFinished ? `--pulse-delay: ${random(4) * .2}s` : ''"
         />
       </PlayCell>
 
@@ -81,5 +89,20 @@ const cells = props.field.getAllCells()
 }
 .cell-6 {
   @apply text-cell-6 dark:text-cell-6-bg;
+}
+
+.cell-playing {
+  @apply w-[80%] m-[10%];
+}
+.cell-finished {
+  @apply w-[94%] m-[3%];
+  animation: pulse 0.8s ease-in-out var(--pulse-delay, 0s) 5;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  25%      { opacity: 0.7; transform: scale(0.8); }
+  50%      { opacity: 0.4; transform: scale(1.25); }
+  75%      { opacity: 0.7; transform: scale(1.05); }
 }
 </style>

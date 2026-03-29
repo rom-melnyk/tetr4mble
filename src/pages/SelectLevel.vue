@@ -9,7 +9,7 @@ import { useRouter } from "vue-router"
 
 const router = useRouter()
 
-const levels = useLevels()
+const levels = [...useLevels().values()]
 const difficulty = useDifficulty()
 
 const _difficultyNames: { [level in DifficultyLevel]: string } = {
@@ -31,14 +31,21 @@ const dufficultyName = computed(() => _difficultyNames[difficulty.level.value])
 
     <div class="flex-1 overflow-y-auto flex flex-row justify-center">
       <table class="border-separate border-spacing-y-4 lg:border-spacing-y-8">
-        <tr v-for="(level, lid) in levels">
+        <tr v-for="level in levels">
           <td>
-            <MiniField :field="level.field" class="mx-auto" />
+            <MiniField
+              :key="level.id"
+              :width="level.width"
+              :height="level.height"
+              :cells="level.matrix.flat()"
+              class="mx-auto"
+            />
           </td>
           <td>
-            <a :href="`/level/${lid}/${difficulty.level.value}`"
-                class="ml-4 lg:ml-4"
-            >{{ level.description }}</a>
+            <a
+              :href="`/level/${level.id}/${difficulty.level.value}`"
+              class="ml-4 lg:ml-4"
+            >{{level.id}}: {{ level.name }}</a>
           </td>
         </tr>
       </table>

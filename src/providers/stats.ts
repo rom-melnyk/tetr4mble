@@ -1,40 +1,40 @@
-﻿import { type DifficultyLevel } from "./difficulty"
+﻿import { reactive } from "vue"
+import { type DifficultyLevel } from "./difficulty"
 
-type StoredStats = Pick<LevelStats, "bestTime" | "bestMoves">
+type StoredStats = Pick<LevelStats["data"], "bestTime" | "bestMoves">
 
 export class LevelStats {
   private static lsKey(lid: number, difficulty: DifficultyLevel) {
     return `T4/L${lid}/D${difficulty}/stats`
   }
 
-  /** Seconds to beat this level at given difficulty */
-  public bestTime = 0
-  public bestMoves = 0
-  /** Seconds played current level */
-  public currentTime = 0
-  public currentMoves = 0
+  public readonly data = reactive({
+    levelId: 0,
+    difficulty: 1 as DifficultyLevel,
+    /** Seconds to beat this level at given difficulty */
+    bestTime: 0,
+    bestMoves: 0,
+    /** Seconds played current level */
+    currentTime: 0,
+    currentMoves: 0,
+  })
 
-  private difficulty: DifficultyLevel = 1
-
-  constructor(
-    private readonly levelId: number
-  ) {}
-
-  public setDifficulty(difficulty: DifficultyLevel) {
-    this.difficulty = difficulty
+  constructor(levelId: number, difficulty: DifficultyLevel) {
+    this.data.levelId = levelId
+    this.data.difficulty = difficulty
     this.load()
   }
 
   private load() {
     try {
       const parsed = JSON.parse(
-        localStorage.getItem(LevelStats.lsKey(this.levelId, this.difficulty)) ?? ""
+        localStorage.getItem(LevelStats.lsKey(this.data.levelId, this.data.difficulty)) ?? ""
       ) as StoredStats
 
-      this.bestTime = parsed.bestTime || 0
-      this.bestMoves = parsed.bestMoves || 0
-      this.currentTime = 0
-      this.currentMoves = 0
+      this.data.bestTime = parsed.bestTime || 0
+      this.data.bestMoves = parsed.bestMoves || 0
+      this.data.currentTime = 0
+      this.data.currentMoves = 0
     } catch (e) {
       // Fall back to default values
     }
@@ -42,41 +42,41 @@ export class LevelStats {
 
   private store() {
     const statsToStore: StoredStats = {
-      bestTime: this.bestTime,
-      bestMoves: this.bestMoves,
+      bestTime: this.data.bestTime,
+      bestMoves: this.data.bestMoves,
     }
     localStorage.setItem(
-      LevelStats.lsKey(this.levelId, this.difficulty),
+      LevelStats.lsKey(this.data.levelId, this.data.difficulty),
       JSON.stringify(statsToStore)
     )
   }
 
   public reset() {
-    this.currentTime = 0
-    this.currentMoves = 0
+    this.data.currentTime = 0
+    this.data.currentMoves = 0
   }
 
   public bumpMove() {
-    this.currentMoves++
+    this.data.currentMoves++
     this.store()
   }
 
   public bumpTime() {
-    this.currentTime++
+    this.data.currentTime++
     this.store()
   }
 
   public finish() {
-    if (this.isBestTime()) this.bestTime = this.currentTime
-    if (this.isBestMoves()) this.bestMoves = this.currentMoves
+    if (this.isBestTime()) this.data.bestTime = this.data.currentTime
+    if (this.isBestMoves()) this.data.bestMoves = this.data.currentMoves
     this.store()
   }
 
   public isBestTime() {
-    return this.bestTime === 0 || this.currentTime < this.bestTime
+    return this.data.bestTime === 0 || this.data.currentTime < this.data.bestTime
   }
 
   public isBestMoves() {
-    return this.bestMoves === 0 || this.currentMoves < this.bestMoves
+    return this.data.bestMoves === 0 || this.data.currentMoves < this.data.bestMoves
   }
 }

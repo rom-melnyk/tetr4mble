@@ -29,3 +29,12 @@ class Difficulty {
 const difficulty = new Difficulty()
 
 export const useDifficulty = () => difficulty
+
+export function parseDifficulty(diffString: string): DifficultyLevel {
+  const diff = Number(diffString)
+  if (diff >= 1 && diff <= maxDifficulty) return diff as DifficultyLevel
+  else {
+    console.warn(`⚠️ Failed parsing difficulty "${diffString}"; falling back to 1`)
+    return 1
+  }
+}

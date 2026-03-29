@@ -8,13 +8,11 @@ import LevelNameandDifficulty from "./shared/LevelNameAndDifficulty.vue"
 import { formatTime } from "../utils"
 
 const router = useRouter()
-;(window as any).rtr = router
-
 const levelId = Number(router.currentRoute.value.params.id)
 const levels = useLevels()
 
 const props = defineProps<{
-  stats: LevelStats;
+  stats: LevelStats["data"];
   name: string;
   difficulty: DifficultyLevel;
   isBestTime: boolean;
@@ -26,7 +24,7 @@ const changeLevel = (dir: -1 | 1) => {
 }
 
 const hasAdjacentLevel = (dir: -1 | 1) => {
-  return levels[levelId + dir] != undefined
+  return levels.get(levelId + dir) != undefined
 }
 
 const emit = defineEmits(["restart"])

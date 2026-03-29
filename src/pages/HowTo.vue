@@ -13,7 +13,7 @@ const router = useRouter()
 
   <article class="md:w-xl mx-auto">
     <h1>Instructions</h1>
-    <p>Bring the shuffled figure to its original way (it's shown in the header).</p>
+    <p>Bring the shuffled figure to its original look (it's&nbsp;shown in the top-left corner).</p>
     <p>
       Use <b>arrow keys</b> (or clicking anywhere on the figure) to move the cursor.
       <br/>

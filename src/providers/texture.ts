@@ -15,7 +15,7 @@ export class Texture {
     this.texture = [...texture]
   }
 
-  getLetterAt(x: number, y: number): CellTypeMask {
+  getMaskAt(x: number, y: number): CellTypeMask {
     const rowIdx = y % this.texture.length
     const row = this.texture[rowIdx]
     const colIdx = x % row.length

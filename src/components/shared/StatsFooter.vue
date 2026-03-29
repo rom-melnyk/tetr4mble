@@ -8,7 +8,7 @@ import { formatTime } from "../../utils"
 defineProps<{
   name: string;
   difficulty: DifficultyLevel;
-  stats: LevelStats;
+  stats: LevelStats["data"];
 }>()
 const difficultyPercentages = Array(maxDifficulty)
   .fill(null)

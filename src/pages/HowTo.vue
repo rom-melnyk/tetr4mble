@@ -23,7 +23,7 @@ const router = useRouter()
 
     <p class="text-sm italic mt-8 text-ink-light dark:text-paper-dark">
       Inspired by an old game
-      <br/>on iconic <a href="/about">Mitshubishi Trium</a> phone.
+      <br/>on iconic <router-link to="/about">Mitshubishi Trium</router-link> phone.
     </p>
 
     <div class="mt-4 text-center">

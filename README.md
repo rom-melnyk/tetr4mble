@@ -13,3 +13,7 @@ npm install
 npm run dev           # for local development
 npm run build         # for prod build
 ```
+
+## Demo
+
+Play live [here](https://melnyk.site/file/59).

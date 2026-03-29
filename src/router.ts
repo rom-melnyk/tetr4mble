@@ -1,4 +1,4 @@
-﻿import { createRouter, createWebHistory } from "vue-router"
+﻿import { createRouter, createWebHashHistory } from "vue-router"
 import About from "./pages/About.vue"
 import HowTo from "./pages/HowTo.vue"
 import Level from "./pages/Level.vue"
@@ -13,5 +13,5 @@ export const router = createRouter({
     { path: "/:pathMatch(.*)*", redirect: "/about" },
     { path: "", redirect: "/about" },
   ],
-  history: createWebHistory(),
+  history: createWebHashHistory("#!"),
 })

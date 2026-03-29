@@ -3,8 +3,8 @@
   {
     "difficulty": 1,
     "texture": [
-      "AA",
-      "AA"
+      "BAA",
+      "AAB"
     ]
   },
   {
@@ -31,8 +31,8 @@
   {
     "difficulty": 1,
     "texture": [
-      "AAA",
-      "BBB"
+      "AAB",
+      "BBA"
     ]
   },
   {
@@ -54,7 +54,7 @@
     "texture": [
       "AB",
       "AB",
-      "AB"
+      "BA"
     ]
   },
   {
@@ -67,9 +67,9 @@
   {
     "difficulty": 1,
     "texture": [
-      "A",
-      "B",
-      "A"
+      "BA",
+      "BB",
+      "AB"
     ]
   },
 

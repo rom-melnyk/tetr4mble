@@ -42,10 +42,10 @@ const dufficultyName = computed(() => _difficultyNames[difficulty.level.value])
             />
           </td>
           <td>
-            <a
-              :href="`/level/${level.id}/${difficulty.level.value}`"
+            <router-link
+              :to="`/level/${level.id}/${difficulty.level.value}`"
               class="ml-4 lg:ml-4"
-            >{{level.id}}: {{ level.name }}</a>
+            >{{level.id}}: {{ level.name }}</router-link>
           </td>
         </tr>
       </table>
